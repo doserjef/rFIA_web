@@ -1,0 +1,15 @@
+# Font style metadata
+name = "Classic"
+
+# Optional Google font URL
+google_fonts = "Roboto"
+
+# Font families
+heading_font = "Roboto Condensed"
+body_font = "Roboto Condensed"
+nav_font = "Lato"
+mono_font = "Roboto Condensed"
+
+# Font size
+font_size = "24"
+font_size_small = "16"
