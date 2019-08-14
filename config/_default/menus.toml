@@ -4,13 +4,13 @@
 #   The weight parameter defines the order that the links will appear in.
 
 [[main]]
-  name = "Demo"
-  url = "#demo"
+  name = "Install"
+  url = "#install"
   weight = 10
 
 [[main]]
-  name = "Posts"
-  url = "#posts"
+  name = "About"
+  url = "#aboutrFIA"
   weight = 20
 
 [[main]]
@@ -19,13 +19,14 @@
   weight = 30
 
 [[main]]
-  name = "Publications"
-  url = "#featured"
+  name = "Examples"
+  url = "examples"
+
   weight = 40
 
 [[main]]
-  name = "Courses"
-  url = "courses/"
+  name = "Publications"
+  url = "#featured"
   weight = 50
 
 [[main]]
