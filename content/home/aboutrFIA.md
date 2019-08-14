@@ -6,9 +6,9 @@
 widget = "blank"  # See https://sourcethemes.com/academic/docs/page-builder/
 headless = false  # This file represents a page section.
 active = true  # Activate this widget? true/false
-weight = 3  # Order that this section will appear.
+weight = 2  # Order that this section will appear.
 
-title = "An Intro to rFIA"
+#title = "Unlocking the FIA Database in R"
 
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
@@ -28,8 +28,8 @@ title = "An Intro to rFIA"
   # gradient_end = "SkyBlue"
   
   # Background image.
-  #image = "drone_borealCanopy.jpg"  # Name of image in `static/img/`.
-  #image_darken = .8 # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
+  #image = "drone_borealCanopy.png"  # Name of image in `static/img/`.
+  #image_darken = 0.8 # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
 
 
   # Text color (true=light or false=dark).
@@ -46,6 +46,8 @@ title = "An Intro to rFIA"
  # CSS class.
  css_class = ""
 +++
+# _**Unlocking the FIA Database in R**_
+
 
 The goal of `rFIA` is to increase the accessibility and use of the USFS Forest Inventory and Analysis (FIA) Database by providing a user-friendly, open source platform to easily query and analyze FIA Data. Designed to accommodate a wide range of potential user objectives, `rFIA` simplifies the estimation of forest variables from the FIA Database and allows all R users (experts and newcomers alike) to unlock the flexibility and potential inherent to the Enhanced FIA design.
 

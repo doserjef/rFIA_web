@@ -1,11 +1,12 @@
 +++
 # blank widget.
-widget = "blank"  # See https://sourcethemes.com/academic/docs/page-builder/
+widget = "hero"  # See https://sourcethemes.com/academic/docs/page-builder/
 headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
-weight = 2  # Order that this section will appear.
+weight = 3  # Order that this section will appear.
+hero_media = "rLogo.png"
 
-title = "Unlocking the FIA Database in R"
+#title = "Unlocking the FIA Database in R"
 
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
@@ -34,14 +35,14 @@ title = "Unlocking the FIA Database in R"
 # Call to action links (optional).
 #   Display link(s) by specifying a URL and label below. Icon is optional for `[cta]`.
 #   Remove a link/note by deleting a cta/note block.
-# [cta]
-#   url = "https://github.com/hunter-stanke/rFIA"
-#   label = "Find us on Github"
-#   icon_pack = "fab"
-#   icon = "github"
-#   
+[cta]
+  url = "https://github.com/hunter-stanke/rFIA"
+  label = "Find us on Github"
+  icon_pack = "fab"
+  icon = "github"
+
 # [cta_alt]
-#   url = "https://sourcethemes.com/academic/"
+#   url = "static/files/rFIA-manual.pdf"
 #   label = "View Documentation"
   
 # Note. An optional note to show underneath the links.
@@ -59,7 +60,7 @@ Alternatively, you can install the development version from GitHub:
 devtools::install_github('hunter-stanke/rFIA')
 ```
 
-
+{{% staticref "files/rFIA-manual.pdf" %}}Pacakge Documentation{{% /staticref %}}
 
 <span style="text-shadow: none;"><a class="github-button" href="https://github.com/hunter-stanke/rFIA" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star this on GitHub">Star</a><script async defer src="https://buttons.github.io/buttons.js"></script></span>
 
