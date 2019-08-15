@@ -6,12 +6,12 @@
 [[main]]
   name = "Install"
   url = "#install"
-  weight = 20
+  weight = 10
 
 [[main]]
   name = "About"
-  url = "#about"
-  weight = 10
+  url = "about/"
+  weight = 20
 
 [[main]]
   name = "Projects"
@@ -20,12 +20,12 @@
 
 [[main]]
   name = "Example Usage"
-  url = "examples"
+  url = "#examples"
   weight = 30
 
 [[main]]
   name = "News & Updates"
-  url = "news"
+  url = "#news"
   weight = 50
   
 [[main]]
