@@ -17,5 +17,6 @@ menu_title = "#fff"
 
 # Home sections
 #home_section_odd = "rgb(255, 255, 255)"
-home_section_odd = '#eaeded' 
-home_section_even = "#f8f9f9"
+home_section_odd = "#eaeded"
+#home_section_even = "#f8f9f9"
+home_section_even = "#ebebeb"

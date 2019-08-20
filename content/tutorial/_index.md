@@ -3,18 +3,17 @@
 # layout: docs  # Do not modify.
 
 # Optional header image (relative to `static/img/` folder).
-header:
-  caption: ""
-  image: ""
+
   
   
 # Page metadata.
-title: Getting started with rFIA
+#title: Getting started with rFIA
 date: "2018-09-09T00:00:00Z"
 lastmod: "2018-09-09T00:00:00Z"
 draft: false  # Is this a draft? true/false
 toc: false  # Show table of contents? true/false
 type: docs  # Do not modify.
+
 
 # Add menu entry to sidebar.
 # - name: Declare this menu item as a parent with ID `name`.
@@ -24,4 +23,10 @@ menu:
     name: Overview
     weight: 1
 ---
+
+
+![Sisters panorama HJ Andrews Experimental Forest](/img/sisters_pan.png)
+
+
+# _**Getting started with rFIA**_
 

@@ -37,7 +37,7 @@ weight = 2  # Order that this section will appear.
 
 [design.spacing]
   # Customize the section spacing. Order is top, right, bottom, left.
-  padding = ["0", "20px", "50px", "0"]
+  padding = ["50px", "20px", "50px", "20px"]
 
 [advanced]
  # Custom CSS. 
@@ -46,9 +46,7 @@ weight = 2  # Order that this section will appear.
  # CSS class.
  css_class = ""
 +++
-# _**Unlocking the FIA Database in R**_
 
------------------------------------------
 
 
 `rFIA` is a user-friendly, open-source R package designed to increase the accessibility and use of the USFS Forest Inventory and Analysis (FIA) Database. It provides a simple, yet powerful set of tools to easily query and analyze FIA Data. Designed to accommodate a wide range of potential user objectives, `rFIA` simplifies the estimation of forest variables using the FIA Database and allows all R users (experts and newcomers alike) to unlock the flexibility and potential inherent to the Enhanced FIA design.
