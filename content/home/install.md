@@ -49,13 +49,13 @@ hero_media = "rLogo.png"
 
 +++
 
-You can install the released version of `rFIA` from [CRAN](https://CRAN.R-project.org) with:
+Install the released version from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("rFIA")
 ```
 
-Alternatively, you can install the development version from GitHub:
+Or, install the development version from GitHub:
 ```r
 devtools::install_github('hunter-stanke/rFIA')
 ```
