@@ -1,14 +1,16 @@
 ---
-date: "2019-05-05T00:00:00+01:00"
-draft: false
-linktitle: Tips 3-4
-menu:
-  example:
-    parent: Example Topic
-    weight: 2
-title: Example Page 2
+title: Estimating Forest Attributes with rFIA
+linktitle: Basic Analysis with rFIA
 toc: true
 type: docs
+date: "2019-05-05T00:00:00+01:00"
+draft: false
+menu:
+  tutorial:
+    parent: Overview
+    weight: 2
+
+# Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
 weight: 2
 ---
 
