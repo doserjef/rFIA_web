@@ -47,7 +47,7 @@ weight = 2  # Order that this section will appear.
  css_class = ""
 +++
 
-<img style="float: left;" src="/img/vt_wp.png" hspace = 20 vspace = 40, width = 500>
+<img style="float: left;" src="/img/vt_wp_mort1.jpg" hspace = 20 vspace = 40, width = 500>
 
 
 `rFIA` is a user-friendly, open-source R package designed to increase the accessibility and use of the USFS Forest Inventory and Analysis (FIA) Database. It provides a simple, yet powerful set of tools to easily query and analyze FIA Data. Designed to accommodate a wide range of potential user objectives, `rFIA` simplifies the estimation of forest variables using the FIA Database and allows all R users (experts and newcomers alike) to unlock the flexibility and potential inherent to the Enhanced FIA design.
