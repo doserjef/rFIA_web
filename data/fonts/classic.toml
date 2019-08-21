@@ -11,5 +11,5 @@ nav_font = "Lato"
 mono_font = "Roboto Condensed"
 
 # Font size
-font_size = "28"
+font_size = "32"
 font_size_small = "18"
