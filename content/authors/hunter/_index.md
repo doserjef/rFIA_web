@@ -19,7 +19,7 @@ name: Hunter Stanke
 organizations:
 - name: Michigan State Univeristy
   url: ""
-role: Graduate Student in the Forest Geospatial Analysis Lab
+role: Graduate Student
 social:
 - icon: envelope
   icon_pack: fas
@@ -39,5 +39,5 @@ user_groups:
 
 ---
 
-Hunter Stanke is the lead author and maintainer of `rFIA`. Hunter is a Gradaute Research Fellow with the National Science Foundation and Master's student at Michigan State University.  He is interested in disturbance and landscape ecology, and plans to pursue a PhD in Quantitative Ecology and Resource Management beginning in 2020.
+Hunter Stanke is the lead author and maintainer of `rFIA`. Hunter is a Gradaute Research Fellow with the National Science Foundation and Master's student at Michigan State University.  He is interested in disturbance and landscape ecology, and plans to pursue a PhD in Quantitative Ecology and Resource Management beginning in 2020. 
 

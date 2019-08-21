@@ -4,11 +4,11 @@
 # Add more sections by duplicating this file and customizing to your requirements.
 
 widget = "blank"  # See https://sourcethemes.com/academic/docs/page-builder/
-headless = false  # This file represents a page section.
+headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
-weight = 2  # Order that this section will appear.
+weight = 5  # Order that this section will appear.
 
-#title = "Unlocking the FIA Database in R"
+#title = "Meet the Authors"
 
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
@@ -28,37 +28,43 @@ weight = 2  # Order that this section will appear.
   # gradient_end = "SkyBlue"
   
   # Background image.
-  #image = "drone_borealCanopy.png"  # Name of image in `static/img/`.
-  #image_darken = 0.8 # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
-
+  image = "psFir_HJA.png"  # Name of image in `static/img/`.
+  image_darken = 0.7 # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
 
   # Text color (true=light or false=dark).
-  text_color_light = false
+  text_color_light = true
 
 [design.spacing]
   # Customize the section spacing. Order is top, right, bottom, left.
-  padding = ["20px", "20px", "20px", "20px"]
+  padding = ["0", "00px", "0px", "0"]
 
 [advanced]
  # Custom CSS. 
- css_style = "font-size: 30px;"
+ css_style = "font-style: italic"
  
  # CSS class.
  css_class = ""
 +++
 
-<img style="float: right;" src="/img/vt_wp_mort1.jpg" hspace = 50 vspace = 40, width = 500>
+<br>
+# _Meet the Authors_
+<br>
 
-<style>
-body {
-text-align: left}
-</style>
 
-## _**Our Forests Unveiled**_
-___
 
-Forest growth, mortality, carbon, and diversity, all at your fingertips. `rFIA` simplifies the estimation of forest variables using the Forest Inventory and Analysis Database, putting the power to explore in the hands of the people. 
 
-## **What will you discover?**
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
