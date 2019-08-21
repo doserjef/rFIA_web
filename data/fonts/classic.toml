@@ -5,11 +5,11 @@ name = "Classic"
 google_fonts = "Roboto"
 
 # Font families
-heading_font = "Roboto Condensed"
-body_font = "Roboto Condensed"
-nav_font = "Lato"
+heading_font = "Ubuntu"
+body_font = "Ubuntu"
+nav_font = "Ubuntu"
 mono_font = "Roboto Condensed"
 
 # Font size
-font_size = "32"
-font_size_small = "18"
+font_size = "28"
+font_size_small = "21"
