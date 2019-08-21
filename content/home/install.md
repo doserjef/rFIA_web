@@ -45,11 +45,12 @@ hero_media = "rLogo.png"
   url = "files/rFIA-manual.pdf"
   label = "View Documentation"
   
+  
 # Note. An optional note to show underneath the links.
 
 +++
 
-Install the released version from [CRAN](https://CRAN.R-project.org) with:
+Install the released version from [CRAN](https://CRAN.R-project.org):
 
 ``` r
 install.packages("rFIA")

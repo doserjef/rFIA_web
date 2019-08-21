@@ -1,17 +1,15 @@
 ---
-# title: How to use rFIA
+title: Getting Started
 layout: docs  # Do not modify.
-
-# Optional header image (relative to `static/img/` folder).
 
   
   
 # Page metadata.
-#title: Getting started with rFIA
+#title: Getting started
 date: "2018-09-09T00:00:00Z"
 lastmod: "2018-09-09T00:00:00Z"
 draft: false  # Is this a draft? true/false
-toc: false  # Show table of contents? true/false
+toc: true  # Show table of contents? true/false
 type: docs  # Do not modify.
 
 
@@ -24,11 +22,11 @@ menu:
     weight: 1
 ---
 
-# _**Getting started with rFIA**_
+___
 
-## Installation
+## _**Installation**_
 
-You can install the released version of `rFIA` from [CRAN](https://CRAN.R-project.org) with:
+You can install the released version from [CRAN](https://CRAN.R-project.org) with (COMING SOON!):
 
 ``` r
 install.packages("rFIA")
@@ -41,7 +39,7 @@ devtools::install_github('hunter-stanke/rFIA')
 
 <br>
 
-## Functionality
+## _**Functionality Overview**_
 
 |`rFIA` Function  | Description                                                          |
 |---------------- |----------------------------------------------------------------------|

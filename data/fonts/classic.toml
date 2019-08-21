@@ -2,7 +2,7 @@
 name = "Classic"
 
 # Optional Google font URL
-google_fonts = "Roboto"
+google_fonts = ""
 
 # Font families
 heading_font = "Lexend Exa"
@@ -11,5 +11,5 @@ nav_font = "Lexend Exa"
 mono_font = "Lexend Exa"
 
 # Font size
-font_size = "28"
-font_size_small = "21"
+font_size = "20"
+font_size_small = "20"
