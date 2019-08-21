@@ -10,7 +10,7 @@ hero_media = "rLogo.png"
 
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
-  columns = "2"
+  columns = '2'
 
 [design.background]
   # Apply a background color, gradient, or image.
@@ -41,9 +41,9 @@ hero_media = "rLogo.png"
   icon_pack = "fab"
   icon = "github"
 
-# [cta_alt]
-#   url = "static/files/rFIA-manual.pdf"
-#   label = "View Documentation"
+[cta_alt]
+  url = "files/rFIA-manual.pdf"
+  label = "View Documentation"
   
 # Note. An optional note to show underneath the links.
 
@@ -59,8 +59,4 @@ Or, install the development version from GitHub:
 ```r
 devtools::install_github('hunter-stanke/rFIA')
 ```
-
-{{% staticref "files/rFIA-manual.pdf" %}}Pacakge Documentation{{% /staticref %}}
-
-<span style="text-shadow: none;"><a class="github-button" href="https://github.com/hunter-stanke/rFIA" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star this on GitHub">Star</a><script async defer src="https://buttons.github.io/buttons.js"></script></span>
 

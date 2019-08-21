@@ -24,9 +24,5 @@ menu:
     weight: 1
 ---
 
-
-![Sisters panorama HJ Andrews Experimental Forest](/img/sisters_pan.png)
-
-
 # _**Getting started with rFIA**_
 
