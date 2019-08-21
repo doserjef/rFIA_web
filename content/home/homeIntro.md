@@ -41,13 +41,13 @@ weight = 2  # Order that this section will appear.
 
 [advanced]
  # Custom CSS. 
- css_style = "font-family: 'Ubuntu', sans-serif; font-size: 30px;"
+ css_style = "font-size: 30px;"
  
  # CSS class.
  css_class = ""
 +++
 
-<img style="float: right;" src="/img/vt_wp.png" hspace = 30 vspace = 40, width = 500>
+<img style="float: right;" src="/img/vt_wp_mort1.jpg" hspace = 50 vspace = 40, width = 500>
 
 <style>
 body {
