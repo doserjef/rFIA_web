@@ -78,6 +78,11 @@ tpaRI <- tpa(fiaRI)
 If you would like to return estimates of population totals (e.g. total trees) along with ratio estimates (e.g. mean trees/acre), specify `totals = TRUE` in the call to `tpa`. If you do not want to estimate sampling errors, specify `SE = FALSE` (often much faster).
 {{% /alert %}}
 
+To return the same estimates at the plot level (e.g. mean TPA & BAA for each plot), specify `byPlot = TRUE`:
+```{r}
+tpaRI_plot <- tpa(riMI, byPlot = TRUE)
+```
+
 <br>
 
 ## _**Grouping by species and size class**_
@@ -96,7 +101,7 @@ tpaRI_spsc <- tpa(fiaRI_MR, bySpecies = TRUE, bySizeClass = TRUE)
 <br>
 
 ## _**Grouping by other variables**_
-To group estimates by a variable defined the FIA Database (other than species or size class), pass the variable name to the `grpBy` argument of `tpa`. You can find definitions of all variables in the FIA Database in the the [FIADB User Guide](https://www.fia.fs.fed.us/library/database-documentation/current/ver80/FIADB%20User%20Guide%20P2_8-0.pdf). Variables of interest will most likely be contained in the condition (COND), plot (PLOT), or tree (TREE) tables.
+To group estimates by a variable defined the FIA Database (other than species or size class), pass the variable name to the `grpBy` argument of `tpa`. You can find definitions of all variables in the FIA Database in the the <a href="https://www.fia.fs.fed.us/library/database-documentation/current/ver80/FIADB%20User%20Guide%20P2_8-0.pdf" target="_blank">FIA User Guide</a>. Variables of interest will most likely be contained in the condition (COND), plot (PLOT), or tree (TREE) tables.
 
 ``` {r}
 ## grpBy specifies what to group estimates by (just like species and size class above)
@@ -104,6 +109,9 @@ To group estimates by a variable defined the FIA Database (other than species or
 
 # Ownership Group
 tpaRI_own <- tpa(fiaRI_MR, grpBy = OWNGRPCD)
+
+# Ownership Group (for all available inventories)
+tpaRI_ownAll <- tpa(fiaRI, grpBy = OWNGRPCD)
 
 # Site Productivity Class
 tpaRI_spc <- tpa(fiaRI_MR, grpBy = SITECLCD)
@@ -139,31 +147,63 @@ tpaRI_domain <- tpa(fiaRI_MR,
 ## physiographic class upon which the class occurs
 ```
 
+{{% alert note %}}
+You can find definitions of all variables in the FIA Database in the the <a href="https://www.fia.fs.fed.us/library/database-documentation/current/ver80/FIADB%20User%20Guide%20P2_8-0.pdf" target="_blank">FIA User Guide</a>. Variables of interest will most likely be contained in the condition (COND), plot (PLOT), or tree (TREE) tables.
+{{% /alert %}}
+
 <br>
 
 
 
 ## _**Visualization**_
+Now that we have produced some estimates, we should translate them into plots so we can easily see the status and trends in our selected forest attributes. Using `plotFIA`, we can easily produce (1) simple or grouped time series plots, (2) simple or grouped plots with a user defined x-axis (e.g. size class), and (3) spatial choropleth maps (see [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.md" >}} )).
 
+#### Time Series Plots
+By default, `plotFIA` will produce time series plots if you produced estimates for more than one reporting year and do not specify a non-temporal x-axis. To produce a grouped time series, simply hand the grouping variables to the `grp` argument of `plotFIA` (should correspond with the `grpBy` argument of estimating function).
+```{r}
+## Using our estimates from above (all inventory years in RI)
+plotFIA(tpaRI, y = BAA, plot.title = 'Simple Time Series')
 
-<br>
-
-## _**Simple, easy parallelization**_
-All `rFIA` estimator functions (as well as `readFIA` and `getFIA`) can be implemented in parallel, using the `nCores` argument. By default, processing is implemented serially `nCores = 1`, although users may find substantial increases in efficiency by increasing `nCores`. 
-
-Parallelization is implemented with the parallel package. Parallel implementation is achieved using a snow type cluster on any Windows OS, and with multicore forking on any Unix OS (Linux, Mac). Implementing parallel processing may substantially decrease free memory during processing, particularly on Windows OS. Thus, users should be cautious when running in parallel, and consider implementing serial processing for this task if computational resources are limited (nCores = 1).
-
-``` {r}
-## Check the number of cores available on your machine 
-## Requires the parallel package, run library(parallel)
-detectCores(logical = FALSE)
-
-## On our machine, we find we have 4 physical cores. 
-## To speed processing, we will split the workload 
-## across 3 of these cores using nCores = 3
-tpaRI_par <- tpa(fiaRI, nCores = 3)
+## Grouped time series by ownership class
+plotFIA(tpaRI_ownAll, y = BAA, grp = OWNGRPCD, plot.title = 'Grouped Time Series (Ownership Group)')
 ```
+![Time Series Plots](/img/timePlot.png)
+
+#### Non-temporal plots
+To define your own x-axis, simply specify the variable you would like to use in the `x` argument of the `plotFIA` call. This is great for plotting things like size-class distributions. Since these plots do not have time as axis, they are best suited for plotting estimates from a single point in time (e.g. a most recent subset).
+```{r}
+## Using our estimates from above (all inventory years in RI)
+plotFIA(tpaRI_sizeClass, y = BAA, x = sizeClass, plot.title = 'Simple size class distribution')
+
+## Grouped time series by ownership class
+plotFIA(tpaRI_spsc, y = BAA, grp = COMMON_NAME, x = sizeClass, n.max = 5, plot.title = 'Grouped size class distribution')
+```
+![Time Series Plots](/img/udx.png)
+
+{{% alert note %}}
+You can specify `n.max` to any grouped call to `plotFIA` to only display the top or bottom `n` groups in your plot. In the call above we specified `n.max = 5`, resulting in the species with the highest average basal area per acre values being plotted. To only plot the bottom five, specify `n.max = -5`.
+{{% /alert %}}
+
 <br>
+
+
 
 ## _**Other rFIA functions**_
+Fortunately, all of the `rFIA` estimator functions are structured in the same way. Therefore you can use essentially the same argument calls we've used with `tpa` above, to produce estimates of other types of forest attributes! 
 
+In the table below we list the availability of the argument calls we have explored in the examples above for all `rFIA` estimator functions. In some cases, like that of `dwm` (estimates of down woody material volume, biomass & carbon) it does not make sense to include arguments like `treeDomain` or `bySpecies`, and hence these arguments are unavailable.
+
+|`rFIA` Function | bySpecies | bySizeClass| treeDomain  | areaDomain | tidy |
+|--------------- |---------- |------------ |----------- |----------- |----- |
+|`biomass`       |     +     |      +      |      +     |     +      |   -  |
+|`diversity`     |     -     |      +      |      +     |     +      |   -  |
+|`dwm`           |     -     |      -      |      -     |     +      |   +  |
+|`growMort`      |     +     |      +      |      +     |     +      |   -  |
+|`invasive`      | (default) |      -      |      -     |     +      |   -  |
+|`standStruct`   |     -     |      -      |      -     |     +      |   +  |
+|`tpa`           |     +     |      +      |      +     |     +      |   -  |
+|`vitalRates`    |     +     |      +      |      +     |     +      |   -  |
+
+{{% alert note %}}
+The `tidy` argument (available in `dwm` and `standStruct`) results in the return of a 'tidy' dataframe, specifically for use with `tidyverse` packages. If you are looking to return a spatial object with these functions `returnSpatial = TRUE`, you should specify `tidy = FALSE`. All other estimator functions return tidy dataframes by default.
+{{% /alert %}}

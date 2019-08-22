@@ -26,7 +26,7 @@ ___
 
 ## _**Installation**_
 
-You can install the released version from [CRAN](https://CRAN.R-project.org) with (COMING SOON!):
+You can install the released version from<a href="https://CRAN.R-project.org" target="_blank">CRAB</a> (COMING SOON!):
 
 ``` r
 install.packages("rFIA")
@@ -55,3 +55,11 @@ devtools::install_github('hunter-stanke/rFIA')
 |`standStruct`    | Estimate forest structural stage distributions                       |
 |`tpa`            | Estimate abundance of standing trees (TPA & BAA)                     |
 |`vitalRates`     | Estimate live tree growth rates                                      |
+
+<br>
+
+## _**Learn More!**_
+- [Downloading FIA Data] ( {{< ref "/tutorial/downloading.md" >}} )
+- [Estimating Forest Attributes] ( {{< ref "/tutorial/basicAnalysis.md" >}} )
+- [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.md" >}} )
+- [Tips for Handling Big Data] ( {{< ref "/tutorial/bigData.md" >}} )

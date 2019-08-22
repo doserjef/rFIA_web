@@ -44,6 +44,7 @@ hero_media = "rLogo.png"
 [cta_alt]
   url = "files/rFIA-manual.pdf"
   label = "View Documentation"
+  target = "_blank"
   
   
 # Note. An optional note to show underneath the links.
