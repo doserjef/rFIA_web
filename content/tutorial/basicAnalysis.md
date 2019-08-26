@@ -167,7 +167,9 @@ plotFIA(tpaRI, y = BAA, plot.title = 'Simple Time Series')
 ## Grouped time series by ownership class
 plotFIA(tpaRI_ownAll, y = BAA, grp = OWNGRPCD, plot.title = 'Grouped Time Series (Ownership Group)')
 ```
-![Time Series Plots](/img/timePlot.png)
+<img src="/rfia/img/timePlot.png" hspace = 50 vspace = 40>
+
+
 
 #### Non-temporal plots
 To define your own x-axis, simply specify the variable you would like to use in the `x` argument of the `plotFIA` call. This is great for plotting things like size-class distributions. Since these plots do not have time as axis, they are best suited for plotting estimates from a single point in time (e.g. a most recent subset).
@@ -178,7 +180,8 @@ plotFIA(tpaRI_sizeClass, y = BAA, x = sizeClass, plot.title = 'Simple size class
 ## Grouped time series by ownership class
 plotFIA(tpaRI_spsc, y = BAA, grp = COMMON_NAME, x = sizeClass, n.max = 5, plot.title = 'Grouped size class distribution')
 ```
-![Time Series Plots](/img/udx.png)
+<img src="/rfia/img/udx.png" hspace = 50 vspace = 40>
+
 
 {{% alert note %}}
 You can specify `n.max` to any grouped call to `plotFIA` to only display the top or bottom `n` groups in your plot. In the call above we specified `n.max = 5`, resulting in the species with the highest average basal area per acre values being plotted. To only plot the bottom five, specify `n.max = -5`.
