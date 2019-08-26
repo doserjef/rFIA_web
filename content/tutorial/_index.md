@@ -26,7 +26,7 @@ ___
 
 ## _**Installation**_
 
-You can install the released version from<a href="https://CRAN.R-project.org" target="_blank">CRAB</a> (COMING SOON!):
+You can install the released version from <a href="https://CRAN.R-project.org" target="_blank">CRAN</a> (COMING SOON!):
 
 ``` r
 install.packages("rFIA")

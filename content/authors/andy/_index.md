@@ -3,18 +3,26 @@ authors:
 - admin
 bio: []
 education:
-  # courses:
-  # - course: MS Forest Science
-  #   institution: Michigan State Univeristy
-  #   year: 2020
-  # - course: BS Forestry
-  #   institution: Michigan State University
-  #   year: 2019
+  courses:
+  - course: PhD Natural Resources Science and Management
+    institution: University of Minnesota
+    year: 2006
+  - course: MS Statistics
+    institution: University of Minnesota
+    year: 2007
+  - course: MS Forestry
+    institution: University of Massachusetts
+    year: 2003
+  - course: BS Forestry
+    institution: The Pennsylvania State University
+    year: 2000
+    
 email: "finleya@msu.edu"
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Bayesian statistics
+- Spatial statistics
+- Statistical computing
+- Environmental process modeling
 name: Andrew O. Finley
 organizations:
 - name: Michigan State Univeristy
@@ -40,4 +48,4 @@ user_groups:
 
 ---
 
-
+Andy is a professor at Michigan State University with a joint appointment in the Departments of Forestry and Geography, and is a co-author of `rFIA`. A central theme in his research is the use of hierarchical models to integrate information from disparate sources to improve inference and prediction. In terms of application areas, his research focuses on spatial-temporal modeling of changing ecosystem components and systems.
