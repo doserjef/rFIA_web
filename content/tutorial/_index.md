@@ -43,6 +43,7 @@ devtools::install_github('hunter-stanke/rFIA')
 
 |`rFIA` Function  | Description                                                          |
 |---------------- |----------------------------------------------------------------------|
+|`area`           | Estimate land area in various classes                                |
 |`biomass`        | Estimate volume, biomass, & carbon stocks of standing trees          |
 |`clipFIA`        | Spatial & temporal queries                                           |
 |`diversity`      | Estimate species diversity                                           |

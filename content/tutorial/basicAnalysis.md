@@ -24,7 +24,7 @@ The two example datasets used below are included with `rFIA`. **Copy and paste t
 <br>
 
 ## _**Spatial and temporal queries**_
-Are you only interested in producing estimates for a specific inventory year or within a portion of your state? `clipFIA` allows you to easily query (subset) your FIA.Database object so you only use the data you need. This will conserve RAM on your machine and speed processing time. 
+Are you only interested in producing estimates for a specific inventory year or within a portion of your state? `clipFIA` allows you to easily query (subset) your `FIA.Database` object so you only use the data you need. This will conserve RAM on your machine and speed processing time. 
 
 #### Load some data
 
@@ -48,7 +48,7 @@ riMR <- clipFIA(fiaRI, mostRecent = TRUE)
 ```
 
 #### Spatial subsets
-To subset the data required to produce estimates within an user-defined areal region (should be contained within the spatial extent of the FIA.Database object), simply pass a spatial polygon object (from `sp` or `sf` packages) to the `mask` argument of `clipFIA`. In our example below, the spatial subset does little to reduce the size of our FIA.Database object, although the effect is likely to be much more substantial if applied to larger state or region.
+To subset the data required to produce estimates within an user-defined areal region (should be contained within the spatial extent of the `FIA.Database object`), simply pass a spatial polygon object (from `sp` or `sf` packages) to the `mask` argument of `clipFIA`. In our example below, the spatial subset does little to reduce the size of our `FIA.Database` object, although the effect is likely to be much more substantial if applied to larger state or region.
 ```{r}
 ## Select Kent County RI
 kc <- countiesRI[2,] ## SF Multipolygon object
@@ -75,10 +75,10 @@ tpaRI_MR <- tpa(riMR)
 tpaRI <- tpa(fiaRI)
 ```
 {{% alert note %}}
-If you would like to return estimates of population totals (e.g. total trees) along with ratio estimates (e.g. mean trees/acre), specify `totals = TRUE` in the call to `tpa`. If you do not want to estimate sampling errors, specify `SE = FALSE` (often much faster).
+If you would like to return estimates of population totals (e.g., total trees) along with ratio estimates (e.g., mean trees/acre), specify `totals = TRUE` in the call to `tpa`. If you do not want to estimate sampling errors, specify `SE = FALSE` (often much faster).
 {{% /alert %}}
 
-To return the same estimates at the plot level (e.g. mean TPA & BAA for each plot), specify `byPlot = TRUE`:
+To return the same estimates at the plot level (e.g., mean TPA & BAA for each plot), specify `byPlot = TRUE`:
 ```{r}
 tpaRI_plot <- tpa(riMI, byPlot = TRUE)
 ```
@@ -131,9 +131,9 @@ Variable names passed to `grpBy` should NOT be quoted. Multiple grouping variabl
 <br>
 
 ## _**Unique areas or trees of interest**_
-Do you want estimates for a specific type of tree (ex. greater than 12-inches DBH and in a canopy dominant or subdominant position) in specific area (ex. growing on mesic sites)? Each of these specifications are described in the FIA Database, and all `rFIA` estimator functions can leverage these data to easily implement complex queries!
+Do you want estimates for a specific type of tree (eg. greater than 12-inches DBH and in a canopy dominant or subdominant position) in specific area (eg. growing on mesic sites)? Each of these specifications are described in the FIA Database, and all `rFIA` estimator functions can leverage these data to easily implement complex queries!
 
-For a conditions related to trees of interest (e.g. diameter, height, crown class, etc.) pass a logical statement to `treeDomain`. For conditions related to area(e.g. ecoregions, counties, forest types, etc.), pass a logical statement to `areaDomain`. *These statements should NOT be quoted.*
+For a conditions related to trees of interest (e.g., diameter, height, crown class, etc.) pass a logical statement to `treeDomain`. For conditions related to area(e.g., ecoregions, counties, forest types, etc.), pass a logical statement to `areaDomain`. *These statements should NOT be quoted.*
 
 ```{r}
 ## Estimate abundance of trees greater than 12-inches DBH in a dominant 
@@ -156,7 +156,7 @@ You can find definitions of all variables in the FIA Database in the the <a href
 
 
 ## _**Visualization**_
-Now that we have produced some estimates, we should translate them into plots so we can easily see the status and trends in our selected forest attributes. Using `plotFIA`, we can easily produce (1) simple or grouped time series plots, (2) simple or grouped plots with a user defined x-axis (e.g. size class), and (3) spatial choropleth maps (see [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.md" >}} )).
+Now that we have produced some estimates, we should translate them into plots so we can easily see the status and trends in our selected forest attributes. Using `plotFIA`, we can easily produce (1) simple or grouped time series plots, (2) simple or grouped plots with a user defined x-axis (e.g., size class), and (3) spatial choropleth maps (see [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.md" >}} )).
 
 #### Time Series Plots
 By default, `plotFIA` will produce time series plots if you produced estimates for more than one reporting year and do not specify a non-temporal x-axis. To produce a grouped time series, simply hand the grouping variables to the `grp` argument of `plotFIA` (should correspond with the `grpBy` argument of estimating function).
@@ -172,7 +172,7 @@ plotFIA(tpaRI_ownAll, y = BAA, grp = OWNGRPCD, plot.title = 'Grouped Time Series
 
 
 #### Non-temporal plots
-To define your own x-axis, simply specify the variable you would like to use in the `x` argument of the `plotFIA` call. This is great for plotting things like size-class distributions. Since these plots do not have time as axis, they are best suited for plotting estimates from a single point in time (e.g. a most recent subset).
+To define your own x-axis, simply specify the variable you would like to use in the `x` argument of the `plotFIA` call. This is great for plotting things like size-class distributions. Since these plots do not have time as axis, they are best suited for plotting estimates from a single point in time (e.g., a most recent subset).
 ```{r}
 ## Using our estimates from above (all inventory years in RI)
 plotFIA(tpaRI_sizeClass, y = BAA, x = sizeClass, plot.title = 'Simple size class distribution')
