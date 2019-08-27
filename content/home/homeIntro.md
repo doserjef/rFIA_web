@@ -54,7 +54,8 @@ body {
 text-align: left}
 </style>
 
-# _**Our Forests Unveiled**_
+# _**Forests Unveiled**_
+
 ___
 
 Forest growth, mortality, carbon, and diversity, all at your fingertips. `rFIA` simplifies the estimation of forest variables using the Forest Inventory and Analysis Database, putting the power to explore in the hands of the people. 
@@ -62,5 +63,6 @@ Forest growth, mortality, carbon, and diversity, all at your fingertips. `rFIA` 
 <br>
 
 ## **What will you discover?**
+
 
 
