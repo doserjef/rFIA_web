@@ -57,7 +57,7 @@ plotFIA(tpa_polysSF, y = BAA, legend.title = 'BAA (sq.ft/acre)')
 ## Convert sq.ft./acre to sq.m./acre
 plotFIA(tpa_polysSF, y = BAA /10.7639104, legend.title = 'BAA (sq.m/acre)')
 ```
-<img src="/img/spatialBAA.png" hspace = 50 vspace = 40>
+<img src="/img/spatialBAA.jpg" hspace = 50 vspace = 40>
 
 
 <br>
