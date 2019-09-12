@@ -13,7 +13,7 @@ title = ""
 [design]
   # Choose how many columns the section has. Valid values: 1 or 2.
   columns = "1"
-  
+
 
 [design.background]
   # Apply a background color, gradient, or image.
@@ -29,7 +29,7 @@ title = ""
   # gradient_end = "SkyBlue"
   
   # Background image.
-  image = "carbAG_text.jpg"  # Name of image in `static/img/`.
+  image = "img/carbAG_text.jpg"  # Name of image in `static/img/`.
   #image_darken = 0 # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
 
   # Text color (true=light or false=dark).
