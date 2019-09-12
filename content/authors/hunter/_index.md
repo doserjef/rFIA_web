@@ -13,8 +13,11 @@ education:
 email: "stankehu@msu.edu"
 interests:
 - Disturbance & Landscape Ecology
-- Forest Management
 - Spatial Analysis
+- Forest Management 
+
+
+
 name: Hunter Stanke
 organizations:
 - name: Michigan State Univeristy
@@ -35,7 +38,7 @@ social:
   link: https://github.com/hunter-stanke
 superuser: true
 user_groups:
-- Researchers
+- Grad Students
 
 ---
 
