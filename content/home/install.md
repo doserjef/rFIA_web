@@ -4,7 +4,7 @@ widget = "hero"  # See https://sourcethemes.com/academic/docs/page-builder/
 headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
 weight = 3  # Order that this section will appear.
-hero_media = "rLogo.jpg"
+hero_media = "rLogo.png"
 
 #title = "Unlocking the FIA Database in R"
 
