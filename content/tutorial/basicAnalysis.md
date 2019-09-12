@@ -167,7 +167,7 @@ plotFIA(tpaRI, y = BAA, plot.title = 'Simple Time Series')
 ## Grouped time series by ownership class
 plotFIA(tpaRI_ownAll, y = BAA, grp = OWNGRPCD, plot.title = 'Grouped Time Series (Ownership Group)')
 ```
-<img src="/rfia/img/timePlot.png" hspace = 50 vspace = 40>
+<img src="/img/timePlot.png" hspace = 50 vspace = 40>
 
 
 
@@ -180,7 +180,7 @@ plotFIA(tpaRI_sizeClass, y = BAA, x = sizeClass, plot.title = 'Simple size class
 ## Grouped time series by ownership class
 plotFIA(tpaRI_spsc, y = BAA, grp = COMMON_NAME, x = sizeClass, n.max = 5, plot.title = 'Grouped size class distribution')
 ```
-<img src="/rfia/img/udx.png" hspace = 50 vspace = 40>
+<img src="/img/udx.png" hspace = 50 vspace = 40>
 
 
 {{% alert note %}}
