@@ -51,7 +51,7 @@ hero_media = "rLogo.png"
 
 +++
 
-Install the released version from [CRAN](https://CRAN.R-project.org):
+Install the released version from [CRAN](https://CRAN.R-project.org) (COMING SOON):
 
 ``` r
 install.packages("rFIA")

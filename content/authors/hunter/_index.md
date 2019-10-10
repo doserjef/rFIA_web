@@ -42,5 +42,5 @@ user_groups:
 
 ---
 
-Hunter Stanke is the lead author and maintainer of `rFIA`. Hunter is a Gradaute Research Fellow with the National Science Foundation and Master's student at Michigan State University.  He is interested in disturbance and landscape ecology, and plans to pursue a PhD in Quantitative Ecology and Resource Management beginning in 2020. 
+Hunter Stanke is the lead author and maintainer of `rFIA`. Hunter is a Gradaute Research Fellow with the National Science Foundation and Master's student at Michigan State University.  He is interested in disturbance and landscape ecology, and plans to pursue a PhD in Quantitative Ecology and Resource Management beginning in 2020. See his personal website <a href="https://hunter-stanke.com" target="_blank">here</a>.
 
