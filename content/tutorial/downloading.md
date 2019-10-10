@@ -18,18 +18,17 @@ ___
 
 
 ## _**Download data**_
-The first step to using `rFIA` is to download subsets of the FIA Database. The easiest way to accomplish this is using `getFIA`, although users may also choose to download subsets as .csv files from the <a href="https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html" target="_blank">FIA Datamart</a> and load into R using `readFIA`.
+The first step to using `rFIA` is to download subsets of the FIA Database. The easiest way to accomplish this is using `getFIA`.  Using one line of code, you can download state subsets of the FIA Database, load data into your R environment, and optionally save those data to a local directory for future use. Alternatively, you may also choose to download subsets as .csv files from the <a href="https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html" target="_blank">FIA Datamart</a> and load into R using `readFIA`.
 
 
 ```{r}
 ## Download the state subset or Connecticut (requires an internet connection)
 ## Save as an object to automatically load the data into your current R session!
 ct <- getFIA(states = 'CT', dir = '/path/to/save/data')
-```
 
-{{% alert note %}}
-If you are interested in large subsets of the FIA Database (even large states), downloading these data from the <a href="https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html" target="_blank">FIA Datamart</a> and loading with `readFIA` may be faster than using `getFIA`.
-{{% /alert %}}
+## Get multiple states worth of data (not saved since 'dir' is not specified)
+northEast <- getFIA(states = c('ME', 'NH', 'VT', 'NY', 'CT', 'MA', 'RI'))
+```
 
 
 <br>
