@@ -27,9 +27,9 @@ social:
 - icon: envelope
   icon_pack: fas
   link: '#contact'
-# - icon: twitter
-#   icon_pack: fab
-#   link: https://twitter.com/GeorgeCushen
+- icon: desktop
+  icon_pack: fas
+  link: https://hunter-stanke.com
 # - icon: google-scholar
 #   icon_pack: ai
 #   link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
@@ -38,7 +38,7 @@ social:
   link: https://github.com/hunter-stanke
 superuser: true
 user_groups:
-- Grad Students
+- Author
 
 ---
 
