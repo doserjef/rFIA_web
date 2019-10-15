@@ -34,7 +34,7 @@ social:
   link: '#contact'
 - icon: desktop
   icon_pack: fas
-  link: https://blue.for.msu.com
+  link: https://blue.for.msu.edu
 # - icon: twitter
 #   icon_pack: fab
 #   link: https://twitter.com/GeorgeCushen
