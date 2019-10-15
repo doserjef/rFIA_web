@@ -1,25 +1,17 @@
 ---
-title: Estimation population attributes
-layout: docs  # Do not modify.
-
-  
-
-# Page metadata.
-date: "2018-09-09T00:00:00Z"
-lastmod: "2018-09-09T00:00:00Z"
-draft: true  # Is this a draft? true/false
-toc: true  # Show table of contents? true/false
-type: docs  # Do not modify.
-
-
-# Add menu entry to sidebar.
-# - name: Declare this menu item as a parent with ID `name`.
-# - weight: Position of link in menu.
+title: Estimating population attributes
+linktitle: Population Estimation
+toc: true
+type: docs
+date: "2019-05-05T00:00:00+01:00"
+draft: false
 menu:
   courses:
     parent: FIA Demystified
-    name: Population Estimation
     weight: 3
+
+# Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
+weight: 3
 ---
 
 ___
