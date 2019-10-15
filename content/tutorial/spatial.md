@@ -15,7 +15,7 @@ weight: 3
 ---
 
 ___
-## Grouping estimates by user-defined areal units
+## _**Grouping estimates by user-defined areal units**_
 Want to compute estimates within your own area units (spatial polygons)? All `rFIA` estimator functions make this task fast and easy. Simply hand your spatial polygons to the `polys` argument of an estimator function, like `tpa` or `biomass`, and estimates will be grouped within those spatial zones. No need to worry about projections, *`rFIA` functions will reproject FIA data to match that of your input polygon.*
 ```{r}
 ## Group estimates by the areal units, and return as a dataframe
@@ -30,7 +30,7 @@ tpa_polysSF <- tpa(fiaRI, polys = countiesRI, returnSpatial = TRUE)
 
 <br>
 
-## Returning estimates at the plot-level
+## _**Returning estimates at the plot-level**_
 Want to return estimates at the plot level and retain the spatial data associated with each FIA plot? Just specify `returnSpatial = TRUE` and `byPlot = TRUE` in any `rFIA` estimator function, and you've got it!
 
 ```{r}
@@ -47,7 +47,7 @@ plot(bio_pltSF['BIO_AG_ACRE'])
 <br>
 
 
-## Visualization
+## _**Visualization**_
 If you opted to return estimates as a spatial object (specify `returnSpatial = TRUE`), you can easily produce spatial choropleth maps with `plotFIA`:
 ```{r}
 ## Plot distribution of Basal area/ acre across space
@@ -62,7 +62,7 @@ plotFIA(tpa_polysSF, y = BAA /10.7639104, legend.title = 'BAA (sq.m/acre)')
 
 <br>
 
-## How to load spatial objects in R
+## _**How to load spatial objects in R**_
 There are many, many options available for working with spatial data in R. For loading multipolygon shapefiles, we recommend using `readOGR` from the `rgdal` package. 
 ``` {r}
 ## Read a shapefile into R

@@ -78,9 +78,16 @@ tpaRI <- tpa(fiaRI)
 If you would like to return estimates of population totals (e.g., total trees) along with ratio estimates (e.g., mean trees/acre), specify `totals = TRUE` in the call to `tpa`. If you do not want to estimate sampling errors, specify `SE = FALSE` (often much faster).
 {{% /alert %}}
 
-To return the same estimates at the plot level (e.g., mean TPA & BAA for each plot), specify `byPlot = TRUE`:
+To return the same estimates at the plot level (e.g., mean TPA & BAA for each plot), specify `byPlot = TRUE`. For subplot or tree-level estimates, specify `byPlot = TRUE` and `grpBy = SUBP` or `grpBy = TREE`, respectively:
 ```{r}
-tpaRI_plot <- tpa(riMI, byPlot = TRUE)
+## Plot-level
+tpaRI_plot <- tpa(riMR, byPlot = TRUE)
+
+## Subplot-level
+tpaRI_subp <- tpa(riMR, byPlot = TRUE, grpBy = SUBP)
+
+## Tree-level
+tpaRI_tree <- tpa(riMR, byPlot = TRUE, grpBy = TREE)
 ```
 
 <br>

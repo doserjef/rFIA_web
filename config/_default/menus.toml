@@ -22,11 +22,16 @@
   name = "Example Usage"
   url = "tutorial/"
   weight = 30
-
+  
 [[main]]
-  name = "News & Updates"
-  url = "#news"
-  weight = 50
+  name = "FIA Demystified"
+  url = "courses/"
+  weight = 30
+
+#[[main]]
+#  name = "News & Updates"
+#  url = "#news"
+#  weight = 50
   
 [[main]]
   name = "Contact"
