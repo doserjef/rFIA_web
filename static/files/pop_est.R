@@ -1,44 +1,59 @@
----
-title: Estimating population attributes
-linktitle: Population Estimation
-toc: true
-type: docs
-date: "2019-05-05T00:00:00+01:00"
-draft: false
-menu:
-  courses:
-    parent: FIA Demystified
-    weight: 3
+##################################################################
+##################################################################
+##                                        
+##        EXAMPLE POPULATION ESTIMATATION PROCEDURES
+##            IMPLEMENTED BY THE rFIA PACKAGE
+##
+##       Case study: Estimating biomass & carbon stocks 
+##
+##                     Hunter Stanke
+##                    15 October 2019
+##
+##################################################################
+##################################################################
 
-# Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
-weight: 3
----
 
-___
+## In the code below, we highlight the basic estimation procedures
+## used to compute population estimates of forest attributes from 
+## Forest Inventory and Analysis (FIA) data. We will demonstrate 
+## these procedures with the 'fiaRI' dataset (included in the 
+## rFIA package) so that you can follow along.
 
-In the code below, we highlight the basic estimation procedures used to compute population estimates of forest attributes from Forest Inventory and Analysis (FIA) data. We will demonstrate these procedures with the `fiaRI` dataset (included in the `rFIA` package) so that you can follow along. Download the R script for these examples <a href="/files/pop_est.R" target="_blank">here</a>.
 
-Our goal here is to estimate total tree biomass, total treecarbon (aboveground) and total forested area in the state of Rhode Island for the year 2018. From these totals, we will compute ratios of average tree biomass/ forested acre and average tree carbon/ forested acre. We will do this with and without sampling errors (without being much simpler), and show you how we handle grouped estimates in both cases. All estimates will be computed for live trees.
+## Our goal here is to estimate total tree biomass, total tree
+## carbon (aboveground) and total forested area in the state of Rhode Island
+## for the year 2018. From these totals, we will compute ratios
+## of average tree biomass / forested acre and average tree 
+## carbon / forested acre. We will do this with and without 
+## sampling errors (without being much simpler), and show you 
+## how we handle grouped estimates in both cases. All estimates
+## will be computed for live trees
 
-{{% alert %}}
-The source code for `rFIA` will vary slightly from that presented below as we designed `rFIA` to be as flexible and computationally efficient as possible. Despite the differences in syntax and structure, the estimation procedures presented below are identical to those in `rFIA`. You can find and download the full source code for `rFIA` from our <a href="https://github.com/hunter-stanke/rFIA" target="_blank">GitHub Repo</a>.
-{{% /alert %}}
 
-<br>
+## NOTE: The source code for rFIA will vary slightly from that 
+## presented below as we designed rFIA to be as flexible and 
+## computationally efficient as possible. Despite the differences
+## in syntax and structure, the estimation procedures presented
+## below are identical to those in rFIA. You can find and 
+## download the full source code for rFIA from our GitHub repo:
+## https://github.com/hunter-stanke/rFIA
 
-## _**Data Preparation**_
-First, let's load some packages and the `fiaRI` dataset:
-```{r}
 # Load some packages
 library(rFIA)
 library(dplyr)
 
 # Load the fiaRI dataset (included in rFIA)
 data(fiaRI)
-```
 
-To compute population estimates of current area and current biomass/carbon from the FIADB, we need to identify and subset the necessary portions. To do this, we will use what FIA calls an EVALID, hence the name 'EVALIDator'.
-```{r}
+## Let's just use the most recent subset of 'fiaRI', 2018
+db <- clipFIA(fiaRI)
+
+
+####################### DATA PREPERATION #########################
+## First we need to identify which portion of the FIA Database
+## we need to compute estimates of current area and current volume 
+## (biomass/carbon). To do this, we will use what FIA calls an
+## EVALID, hence the name 'EVALIDator'.
 ids <- db$POP_EVAL %>%
   select('CN', 'END_INVYR', 'EVALID') %>%
   inner_join(select(db$POP_EVAL_TYP, c('EVAL_CN', 'EVAL_TYP')), by = c('CN' = 'EVAL_CN')) %>%
@@ -48,10 +63,8 @@ ids <- db$POP_EVAL %>%
 
 ## Now that we have those EVALIDs, let's use clipFIA to subset
 db <- clipFIA(db, evalid = ids$EVALID)
-```
 
-Since we need some information stored in each of these tables to compute estimates, we will join them into one big dataframe (let's call that `data`) that we can operate on.
-```{r}
+
 ## Select only the columns we need from each table, to keep things slim
 PLOT <- select(db$PLOT, CN, MACRO_BREAKPOINT_DIA)
 COND <- select(db$COND, PLT_CN, CONDID, CONDPROP_UNADJ, PROP_BASIS, COND_STATUS_CD, OWNGRPCD)
@@ -63,7 +76,9 @@ POP_PLOT_STRATUM_ASSGN <- select(db$POP_PLOT_STRATUM_ASSGN, STRATUM_CN, PLT_CN)
 POP_STRATUM <- select(db$POP_STRATUM, ESTN_UNIT_CN, EXPNS, P2POINTCNT, 
                       ADJ_FACTOR_MICR, ADJ_FACTOR_SUBP, ADJ_FACTOR_MACR, CN, P1POINTCNT)
 
-## Join the tables
+## Since we need some information stored in each of these tables
+## to compute estimates, we will join them into one big data
+## dataframe (let's call that 'data') that we can operate on.
 data <- PLOT %>%
   ## Add a PLT_CN column for easy joining
   mutate(PLT_CN = CN) %>%
@@ -76,12 +91,13 @@ data <- PLOT %>%
   left_join(POP_ESTN_UNIT, by = c('ESTN_UNIT_CN' = 'CN')) %>%
   left_join(POP_EVAL, by = c('EVAL_CN' = 'CN')) %>%
   left_join(POP_EVAL_TYP, by = 'EVAL_CN')
-```
 
-Now let's make a column that will adjust for non-response in our sample (See <a href="https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf" target="_blank">Bechtold and Patterson (2005)</a>, 3.4.3 'Nonsampled Plots and Plot Replacement'). Since we know there are no macroplots in RI, we don't really need to worry about that here, but we will show you anyways.
 
-```{r}
-## Make some adjustment factors
+## Now let's make a column that will adjust for non-response
+## in our sample (See Bechtold & Patterson, 3.4.3 'Nonsampled 
+## Plots and Plot Replacement')
+# Since we know there are no macroplots in RI, we don't really 
+# need to worry about that here, but we will show you anyways.
 data <- data %>%
   mutate(
     ## AREA
@@ -102,13 +118,24 @@ data <- data %>%
            ## When DIA is greater than 5", use subplot value
            DIA >= 5 ~ ADJ_FACTOR_SUBP
          ))
-```
 
-Next, we need to construct what <a href="https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf" target="_blank">Bechtold and Patterson (2005)</a> called a 'domain indicator function'. (see Eq. 4.1, pg. 47 of the publication). This is essentially just a vector which indicates whether a tree (or plot, condition, etc.) is within our domain of interest (live trees on forest land). 
+## Next, we need to construct what Bechtold and Patterson called
+## a 'domain indicator function'. (see Eq. 4.1, pg. 47 of the 
+## publication). This is essentially just a vector which indicates
+## whether a tree (or plot, condition, etc.) is within our domain 
+## of interest (live trees on forest land). 
 
-To construct the domain indicator, we just need a vector which is the same length as our joined table (`data`), and takes a value of 1 if the stem (or condition) is in the domain and 0 otherwise. We build seperate domain indicators for estimating tree totals and area totals, because we can specify different domains of interest for both. For example, if we used our tree domain (live trees on forest land) to estimate area, then we would not actually be estimating the full forested area in RI. Instead we would estimate the forested area ONLY where live trees are currently present.
+## To construct the domain indicator, we just need a vector which 
+## is the same length as our joined table, and takes a value of 1 
+## if the stem (or condition) is in the domain and 0 otherwise. 
+## We build seperate domain indicators for estimating tree totals
+## and area totals, because we can specify different domains of 
+## interest for both. For example, if we used our tree domain 
+## (live trees on forest land) to estimate area, then we would 
+## not actually be estimating the full forested area in RI. Instead
+## we would estimate the forested area ONLY where live trees
+## are currently present.
 
-``` {r}
 ## Build a domain indicator for land type and live trees
 ## Land type (all forested area)
 data$aDI <- if_else(data$COND_STATUS_CD == 1, 1, 0)
@@ -121,16 +148,22 @@ data <- data %>%
   mutate(YEAR = END_INVYR) %>%
   ## remove any NAs
   filter(!is.na(YEAR))
-```
 
-<br>
 
-## _**Estimation without Sampling Errors**_
-Now we are ready to start computing estimates. If we don't care aboute sampling errors, we can use the `EXPNS` column in the `POP_STRATUM` table to make our lives easier. `EXPNS` is an expansion factor which descibes the area, in acres, that a stratum represents divided by the number of sampled plots in that stratum (see  <a href="https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf" target="_blank">Bechtold and Patterson (2005)</a>, section 4.2 for more information on FIA stratification procedures). When summed across summed across all plots in the population of interest, `EXPNS` allows us to easily obtain estimates of population totals, without worrying about fancy stratifaction procedures and variance estimators.
+################## WITHOUT SAMPLING ERRORS #####################
+####### NO GROUPS
+## Now we are ready to start computing estimates. If we don't 
+## care aboute sampling errors, we can use the EXPNS column 
+## in the POP_STRATUM table to make our lives easier. EXPNS
+## an expansion factor which descibes the area, in acres, 
+## that a stratum represents divided by the number of sampled 
+## plots in that stratum (see Bechtold & Patterson 2005, section
+## 4.2 for more information on FIA stratification procedures).
+## When summed across summed across all plots in the population 
+## of interest, EXPNS allows us to easily obtain estimates of 
+## population totals, without worrying about fancy stratifaction
+## procedures and variance estimators.
 
-### _**No grouping variables**_
-First we compute totals for biomass, carbon, and forested area:
-```{r}
 ## Estimate Tree totals
 tre_bio <- data %>%
   filter(EVAL_TYP == 'EXPVOL') %>%
@@ -158,27 +191,30 @@ area_bio <- data %>%
   ## to obtain population totals
   group_by(YEAR) %>%
   summarize(AREA_TOTAL = sum(forArea, na.rm = TRUE))
-```
 
-Then we can join these tables up, and produce ratio estimates: 
-```{r}
+
+## Now we can simply join these two up, and produce ratio estimates
 bio <- left_join(tre_bio, area_bio) %>%
   mutate(BIO_AG_ACRE = BIO_AG_TOTAL / AREA_TOTAL,
          CARB_AG_ACRE = CARB_AG_TOTAL / AREA_TOTAL) %>%
   ## Reordering the columns
   select(YEAR, BIO_AG_ACRE, CARB_AG_ACRE, BIO_AG_TOTAL, CARB_AG_TOTAL, AREA_TOTAL)
-```
 
-Comparing with `rFIA`, we get a match!
-```{r}
+## Now let's compare with rFIA.... looks like a match!
 biomass(clipFIA(fiaRI), totals = TRUE)
 bio
-```
 
 
-### _**Adding grouping variables**_
-To add grouping variables to the above procedures, we can simply add the names of the variables we wish to group by to the `group_by` call:
-```{r}
+
+################## WITHOUT SAMPLING ERRORS #####################
+####### WITH GROUPING VARIABLES
+## To add grouping variables to the above procedures, we can 
+## simply add the names of the variables we wish to group by 
+## to the 'group_by' call. 
+## NOTE: If adapting this code for your own use, make sure that
+## your grouping variables are included in the 'select' calls in
+## lines 68 -77, otherwise the variable will not be found in 'data'
+
 ## Grouping by Ownership group (OWNGRPCD)
 ## Estimate Tree totals
 tre_bioGrp <- data %>%
@@ -219,13 +255,17 @@ bioGrp <- left_join(tre_bioGrp, area_bioGrp) %>%
 ## Now let's compare with rFIA.... looks like a match!
 biomass(clipFIA(fiaRI), totals = TRUE, grpBy = OWNGRPCD)
 bioGrp
-```
-{{% alert %}}
-If adapting this code for your own use, make sure that your grouping variables are included in the `select` calls in
-**Data Preperation**, otherwise the variable will not be found in `data`.
-{{% /alert %}}
 
 
-<br>
 
-# More Coming Soon!
+
+
+
+
+##################### WITH SAMPLING ERRORS #####################
+####### NO GROUPS
+# Keep it simple, groups and combos w/ a loop
+## We need to rebuild that domain indicator each time we run
+## a group through 
+
+
