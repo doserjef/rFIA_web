@@ -208,7 +208,6 @@ area_bioGrp <- data %>%
   group_by(YEAR, OWNGRPCD) %>%
   summarize(AREA_TOTAL = sum(forArea, na.rm = TRUE))
 
-
 ## Now we can simply join these two up, and produce ratio estimates
 bioGrp <- left_join(tre_bioGrp, area_bioGrp) %>%
   mutate(BIO_AG_ACRE = BIO_AG_TOTAL / AREA_TOTAL,

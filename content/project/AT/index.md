@@ -13,7 +13,7 @@ slides:
 summary: 
 tags:
 #- Deep Learning
-title: Forests of the Appalachian National Scenic Trail
+title: Forests of the Appalachian Trail
 url_code: ""
 url_pdf: ""
 url_slides: ""
