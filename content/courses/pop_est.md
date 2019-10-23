@@ -25,8 +25,9 @@ The source code for `rFIA` will vary slightly from that presented below as we de
 {{% /alert %}}
 
 <br>
-
-## _**Data Preparation**_
+<br>
+# 
+## **Data Preparation**
 First, let's load some packages and the `fiaRI` dataset:
 ```{r}
 # Load some packages
@@ -124,8 +125,10 @@ data <- data %>%
 ```
 
 <br>
+<br>
 
-## _**Estimation without Sampling Errors**_
+## **Without Sampling Errors**
+
 Now we are ready to start computing estimates. If we don't care aboute sampling errors, we can use the `EXPNS` column in the `POP_STRATUM` table to make our lives easier. `EXPNS` is an expansion factor which descibes the area, in acres, that a stratum represents divided by the number of sampled plots in that stratum (see  <a href="https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf" target="_blank">Bechtold and Patterson (2005)</a>, section 4.2 for more information on FIA stratification procedures). When summed across summed across all plots in the population of interest, `EXPNS` allows us to easily obtain estimates of population totals, without worrying about fancy stratifaction procedures and variance estimators.
 
 ### _**No grouping variables**_
@@ -175,6 +178,7 @@ biomass(clipFIA(fiaRI), totals = TRUE)
 bio
 ```
 
+<br>
 
 ### _**Adding grouping variables**_
 To add grouping variables to the above procedures, we can simply add the names of the variables we wish to group by to the `group_by` call:
@@ -224,7 +228,250 @@ If adapting this code for your own use, make sure that your grouping variables a
 **Data Preperation**, otherwise the variable will not be found in `data`.
 {{% /alert %}}
 
+<br>
+<br>
+
+## **With Sampling Errors**
+Computing estimates with associated sampling errors is a bit more complex than what we saw above, as we can no longer rely on `EXPNS` to do the heavy lifting for us. In short, we will add a few additional steps when computing tree totals and area totals, summarizing at the strata and estimation unit level along the way. When adding grouping variables, we will need to modify our code further, treating each group as a unique population and summarizing these populations individually. We will follow the procedures outlined by <a href="https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf" target="_blank">Bechtold and Patterson (2005)</a> (see section 4) for our computations. 
+
+Before we get started, Let's check out what type of estimation methods were used to determine values in the POP tables, as this will influence which variance estimators we use.
+```{r}
+unique(db$POP_EVAL$ESTN_METHOD)
+```
+Looks like just `post-stratification`, so we will use the stratified random sampling estimation approach (known weights)
+
+
+### _**No grouping variables**_
+First we estimate both tree and area attributes at the plot level, and then join these estimates before proceeding to the strata level so that we can compute the covariance between area and tree attributes
+```{r}
+## Estimate Tree attributes -- plot level
+tre_pop <- data %>%
+  filter(EVAL_TYP == 'EXPVOL') %>%
+  ## Make sure we only have unique observations of plots, trees, etc.
+  distinct(ESTN_UNIT_CN, STRATUM_CN, PLT_CN, CONDID, SUBP, TREE, .keep_all = TRUE) %>%
+  ## Plot-level estimates first (note we are NOT using EXPNS here)
+  group_by(YEAR, ESTN_UNIT_CN, STRATUM_CN, PLT_CN) %>%
+  summarize(bioPlot = sum(DRYBIO_AG * TPA_UNADJ * tAdj * tDI  / 2000, na.rm = TRUE),
+            carbPlot = sum(CARBON_AG * TPA_UNADJ * tAdj * tDI  / 2000, na.rm = TRUE)) 
+
+## Estimate Area attributes -- plot level
+area_pop <- data %>%
+  filter(EVAL_TYP == 'EXPCURR') %>%
+  ## Make sure we only have unique observations of plots, trees, etc.
+  distinct(ESTN_UNIT_CN, STRATUM_CN, PLT_CN, CONDID, .keep_all = TRUE) %>%
+  ## Plot-level estimates first (multiplying by EXPNS here)
+  ## Extra grouping variables are only here so they are carried through
+  group_by(YEAR, P1POINTCNT, P1PNTCNT_EU, P2POINTCNT, AREA_USED, ESTN_UNIT_CN, STRATUM_CN, PLT_CN) %>%
+  summarize(forArea = sum(CONDPROP_UNADJ * aAdj * aDI, na.rm = TRUE))
+  
+## Joining the two tables
+bio_pop_plot <- left_join(tre_pop, area_pop)
+```
+
+Now that we have both area and tree attributes in the same table, we can follow through with the remaining estimation procedures at the strata and estimation unit levels:
+```{r}
+## Strata level
+bio_pop_strat <- bio_pop_plot %>%
+  group_by(YEAR, ESTN_UNIT_CN, STRATUM_CN) %>%
+  summarize(aStrat = mean(forArea, na.rm = TRUE), # Area mean
+            bioStrat = mean(bioPlot, na.rm = TRUE), # Biomass mean
+            carbStrat = mean(carbPlot, na.rm = TRUE), # Carbon mean
+            ## We don't want a vector of these values, since they are repeated
+            P2POINTCNT = first(P2POINTCNT),
+            AREA_USED = first(AREA_USED),
+            ## Strata weight, relative to estimation unit
+            w = first(P1POINTCNT) / first(P1PNTCNT_EU),
+            ## Strata level variances
+            aVar = (sum(forArea^2) - sum(P2POINTCNT * aStrat^2)) / (P2POINTCNT * (P2POINTCNT-1)),
+            bioVar = (sum(bioPlot^2) - sum(P2POINTCNT * bioStrat^2)) / (P2POINTCNT * (P2POINTCNT-1)),
+            carbVar = (sum(carbPlot^2) - sum(P2POINTCNT * carbStrat^2)) / (P2POINTCNT * (P2POINTCNT-1)),
+            ## Strata level co-varainces
+            bioCV = (sum(forArea*bioPlot) - sum(P2POINTCNT * aStrat *bioStrat)) / (P2POINTCNT * (P2POINTCNT-1)),
+            carbCV = (sum(forArea*carbPlot) - sum(P2POINTCNT * aStrat *carbStrat)) / (P2POINTCNT * (P2POINTCNT-1)))
+
+## Moving on to the estimation unit
+bio_pop_eu <- bio_pop_strat %>%
+  group_by(YEAR, ESTN_UNIT_CN) %>%
+  summarize(aEst = sum(aStrat * w, na.rm = TRUE) * first(AREA_USED), # Mean Area
+            bioEst = sum(bioStrat * w, na.rm = TRUE) * first(AREA_USED), # Mean biomass
+            carbEst = sum(carbStrat * w, na.rm = TRUE) * first(AREA_USED), # Mean carbon
+            ## Estimation unit variances
+            aVar = (first(AREA_USED)^2 / sum(P2POINTCNT)) * 
+              (sum(P2POINTCNT*w*aVar) + sum((1-w)*(P2POINTCNT/sum(P2POINTCNT))*aVar)),
+            bioVar = (first(AREA_USED)^2 / sum(P2POINTCNT)) * 
+              (sum(P2POINTCNT*w*bioVar) + sum((1-w)*(P2POINTCNT/sum(P2POINTCNT))*bioVar)),
+            carbVar = (first(AREA_USED)^2 / sum(P2POINTCNT)) * 
+              (sum(P2POINTCNT*w*carbVar) + sum((1-w)*(P2POINTCNT/sum(P2POINTCNT))*carbVar)),
+            ## Estimation unit covariances
+            bioCV = (first(AREA_USED)^2 / sum(P2POINTCNT)) * 
+              (sum(P2POINTCNT*w*bioCV) + sum((1-w)*(P2POINTCNT/sum(P2POINTCNT))*bioCV)),
+            carbCV = (first(AREA_USED)^2 / sum(P2POINTCNT)) * 
+              (sum(P2POINTCNT*w*carbCV) + sum((1-w)*(P2POINTCNT/sum(P2POINTCNT))*carbCV)))
+```
+
+Finally, we can sum attributes across estimation units to obtain totals for our region:
+```{r}
+## sum across Estimation Units for totals
+bio_pop <- bio_pop_eu %>%
+  group_by(YEAR) %>%
+  summarize(AREA_TOTAL = sum(aEst, na.rm = TRUE),
+            BIO_AG_TOTAL = sum(bioEst, na.rm = TRUE),
+            CARB_AG_TOTAL = sum(carbEst, na.rm = TRUE),
+            ## Ratios
+            BIO_AG_ACRE = BIO_AG_TOTAL / AREA_TOTAL,
+            CARB_AG_ACRE = CARB_AG_TOTAL / AREA_TOTAL,
+            ## Total samping errors
+            AREA_TOTAL_SE = sqrt(sum(aVar, na.rm = TRUE)) / AREA_TOTAL * 100,
+            BIO_AG_TOTAL_SE = sqrt(sum(bioVar, na.rm = TRUE)) / BIO_AG_TOTAL * 100, 
+            CARB_AG_TOTAL_SE = sqrt(sum(carbVar, na.rm = TRUE)) / CARB_AG_TOTAL * 100,
+            ## Ratio variances
+            bioAcreVar = (1 / AREA_TOTAL^2) * (sum(bioVar) + (BIO_AG_ACRE^2)*sum(aVar) - 2*BIO_AG_ACRE*sum(bioCV)),
+            carbAcreVar = (1 / AREA_TOTAL^2) * (sum(carbVar) + (CARB_AG_ACRE^2)*sum(aVar) - 2*CARB_AG_ACRE*sum(carbCV)),
+            BIO_AG_ACRE_SE = sqrt(sum(bioAcreVar, na.rm = TRUE)) / BIO_AG_ACRE * 100,
+            CARB_AG_ACRE_SE = sqrt(sum(carbAcreVar, na.rm = TRUE)) / CARB_AG_ACRE * 100) %>%
+  ## Re ordering, dropping variance
+  select(YEAR, BIO_AG_ACRE, CARB_AG_ACRE, BIO_AG_TOTAL, CARB_AG_TOTAL, AREA_TOTAL, BIO_AG_ACRE_SE, 
+         CARB_AG_ACRE_SE, BIO_AG_TOTAL_SE, CARB_AG_TOTAL_SE, AREA_TOTAL_SE)
+```
+
+Comparing with `rFIA`, we get a match!
+```{r}
+biomass(clipFIA(fiaRI), totals = TRUE)
+bio_pop
+```
 
 <br>
 
-# More Coming Soon!
+### _**Adding grouping variables**_
+Unlike estimation without sampling errors, we can NOT just add grouping variables to the above procedures in our `group_by` call. Rather, we will need to account for absence points here (or zero-length outputs) or our estimates will be artificially inflated if groups are not mutually exclusive at the plot level. Example: The presence of red oak on a plot does not negate the potential presence of white ash on the same plot. Therefor, there should be a zero listed for each species not found on the plot. We accomplish this by treating each group as a seperate population, computing each individually, and then rejoining the groups at the end of the operation. 
+
+First let's make a dataframe where each row defines a group that we want to estimate:
+```{r}
+## All groups we want to estimate 
+grps <- data %>%
+  group_by(YEAR, SPCD) %>%
+  summarize()
+```
+  
+Each row in `grps` now defines an individual population that we would like to produce estimates for, thus our end product should have the same number of rows. Thus, we can loop over each of the rows in `grps` and use the estimation procedures above to estimate attributes for each group.
+
+Before we get started with the loop we need to find a way to define the population of interest for each interation (row). To do that, we will modify our  domain indicators from above to reflect whether or not an observation falls within the population defined by `grps[i,]`. Saving the original domain indicators as variables so they are not overwritten in the loop: 
+```{r}
+tDI <- data$tDI
+aDI <- data$aDI
+```
+
+Now we can start our loop:
+```{r}
+## Let's store each output in a list
+bio_pop <- list()
+## Looping
+for (i in 1:nrow(grps)){
+  
+  ## Tree domain indicator
+  data$tDI <- tDI * if_else(data$SPCD == grps$SPCD[i], 1, 0) * if_else(data$YEAR == grps$YEAR[i], 1, 0)
+  ## No need to modify the area domain indicator for SPCD, because
+  ## we want to estimate all forested area within the year
+  data$aDI <- aDI * if_else(data$YEAR == grps$YEAR[i], 1, 0)
+  
+  ## SAME AS ABOVE, JUST IN A LOOP NOW --> SIMILAR TO USING GROUP_BY
+  ## Estimate Area attributes -- plot level
+  tre_pop <- data %>%
+    filter(EVAL_TYP == 'EXPVOL') %>%
+    ## Make sure we only have unique observations of plots, trees, etc.
+    distinct(ESTN_UNIT_CN, STRATUM_CN, PLT_CN, CONDID, SUBP, TREE, .keep_all = TRUE) %>%
+    ## Plot-level estimates first (note we are NOT using EXPNS here)
+    group_by(ESTN_UNIT_CN, STRATUM_CN, PLT_CN) %>%
+    summarize(bioPlot = sum(DRYBIO_AG * TPA_UNADJ * tAdj * tDI  / 2000, na.rm = TRUE),
+              carbPlot = sum(CARBON_AG * TPA_UNADJ * tAdj * tDI  / 2000, na.rm = TRUE)) 
+  
+  ## Estimate Area attributes -- plot level
+  area_pop <- data %>%
+    filter(EVAL_TYP == 'EXPCURR') %>%
+    ## Make sure we only have unique observations of plots, trees, etc.
+    distinct(ESTN_UNIT_CN, STRATUM_CN, PLT_CN, CONDID, .keep_all = TRUE) %>%
+    ## Plot-level estimates first (multiplying by EXPNS here)
+    ## Extra grouping variables are only here so they are carried through
+    group_by(P1POINTCNT, P1PNTCNT_EU, P2POINTCNT, AREA_USED, ESTN_UNIT_CN, STRATUM_CN, PLT_CN) %>%
+    summarize(forArea = sum(CONDPROP_UNADJ * aAdj * aDI, na.rm = TRUE))
+  
+  ## Joining the two tables
+  bio_pop_plot <- left_join(tre_pop, area_pop)
+  
+  ## Now we can follow through with the remaining estimation procedures
+  ## Strata level
+  bio_pop_strat <- bio_pop_plot %>%
+    group_by(ESTN_UNIT_CN, STRATUM_CN) %>%
+    summarize(aStrat = mean(forArea, na.rm = TRUE), # Area mean
+              bioStrat = mean(bioPlot, na.rm = TRUE), # Biomass mean
+              carbStrat = mean(carbPlot, na.rm = TRUE), # Carbon mean
+              ## We don't want a vector of these values, since they are repeated
+              P2POINTCNT = first(P2POINTCNT),
+              AREA_USED = first(AREA_USED),
+              ## Strata weight, relative to estimation unit
+              w = first(P1POINTCNT) / first(P1PNTCNT_EU),
+              ## Strata level variances
+              aVar = (sum(forArea^2) - sum(P2POINTCNT * aStrat^2)) / (P2POINTCNT * (P2POINTCNT-1)),
+              bioVar = (sum(bioPlot^2) - sum(P2POINTCNT * bioStrat^2)) / (P2POINTCNT * (P2POINTCNT-1)),
+              carbVar = (sum(carbPlot^2) - sum(P2POINTCNT * carbStrat^2)) / (P2POINTCNT * (P2POINTCNT-1)),
+              ## Strata level co-varainces
+              bioCV = (sum(forArea*bioPlot) - sum(P2POINTCNT * aStrat *bioStrat)) / (P2POINTCNT * (P2POINTCNT-1)),
+              carbCV = (sum(forArea*carbPlot) - sum(P2POINTCNT * aStrat *carbStrat)) / (P2POINTCNT * (P2POINTCNT-1)))
+  
+  ## Moving on to the estimation unit
+  bio_pop_eu <- bio_pop_strat %>%
+    group_by(ESTN_UNIT_CN) %>%
+    summarize(aEst = sum(aStrat * w, na.rm = TRUE) * first(AREA_USED), # Mean Area
+              bioEst = sum(bioStrat * w, na.rm = TRUE) * first(AREA_USED), # Mean biomass
+              carbEst = sum(carbStrat * w, na.rm = TRUE) * first(AREA_USED), # Mean carbon
+              ## Estimation unit variances
+              aVar = (first(AREA_USED)^2 / sum(P2POINTCNT)) * 
+                (sum(P2POINTCNT*w*aVar) + sum((1-w)*(P2POINTCNT/sum(P2POINTCNT))*aVar)),
+              bioVar = (first(AREA_USED)^2 / sum(P2POINTCNT)) * 
+                (sum(P2POINTCNT*w*bioVar) + sum((1-w)*(P2POINTCNT/sum(P2POINTCNT))*bioVar)),
+              carbVar = (first(AREA_USED)^2 / sum(P2POINTCNT)) * 
+                (sum(P2POINTCNT*w*carbVar) + sum((1-w)*(P2POINTCNT/sum(P2POINTCNT))*carbVar)),
+              ## Estimation unit covariances
+              bioCV = (first(AREA_USED)^2 / sum(P2POINTCNT)) * 
+                (sum(P2POINTCNT*w*bioCV) + sum((1-w)*(P2POINTCNT/sum(P2POINTCNT))*bioCV)),
+              carbCV = (first(AREA_USED)^2 / sum(P2POINTCNT)) * 
+                (sum(P2POINTCNT*w*carbCV) + sum((1-w)*(P2POINTCNT/sum(P2POINTCNT))*carbCV)))
+  
+  ## Finally, sum across Estimation Units for totals
+  bio_pop_total <- bio_pop_eu %>%
+    summarize(AREA_TOTAL = sum(aEst, na.rm = TRUE),
+              BIO_AG_TOTAL = sum(bioEst, na.rm = TRUE),
+              CARB_AG_TOTAL = sum(carbEst, na.rm = TRUE),
+              ## Ratios
+              BIO_AG_ACRE = BIO_AG_TOTAL / AREA_TOTAL,
+              CARB_AG_ACRE = CARB_AG_TOTAL / AREA_TOTAL,
+              ## Total samping errors
+              AREA_TOTAL_SE = sqrt(sum(aVar, na.rm = TRUE)) / AREA_TOTAL * 100,
+              BIO_AG_TOTAL_SE = sqrt(sum(bioVar, na.rm = TRUE)) / BIO_AG_TOTAL * 100, 
+              CARB_AG_TOTAL_SE = sqrt(sum(carbVar, na.rm = TRUE)) / CARB_AG_TOTAL * 100,
+              ## Ratio variances
+              bioAcreVar = (1 / AREA_TOTAL^2) * (sum(bioVar) + (BIO_AG_ACRE^2)*sum(aVar) - 2*BIO_AG_ACRE*sum(bioCV)),
+              carbAcreVar = (1 / AREA_TOTAL^2) * (sum(carbVar) + (CARB_AG_ACRE^2)*sum(aVar) - 2*CARB_AG_ACRE*sum(carbCV)),
+              BIO_AG_ACRE_SE = sqrt(sum(bioAcreVar, na.rm = TRUE)) / BIO_AG_ACRE * 100,
+              CARB_AG_ACRE_SE = sqrt(sum(carbAcreVar, na.rm = TRUE)) / CARB_AG_ACRE * 100) %>%
+    ## Re ordering, dropping variance
+    select(BIO_AG_ACRE, CARB_AG_ACRE, BIO_AG_TOTAL, CARB_AG_TOTAL, AREA_TOTAL, BIO_AG_ACRE_SE, 
+           CARB_AG_ACRE_SE, BIO_AG_TOTAL_SE, CARB_AG_TOTAL_SE, AREA_TOTAL_SE)
+  
+  ## Saving the output in our list...
+  bio_pop[[i]] <- bio_pop_total
+}
+```
+
+Great, we have our estimates! Except they are locked up in a list. Converting back to a `data.frame` and rejoining with `grps`:
+```{r}
+bio_pop <- bind_rows(bio_pop)
+bio_pop_sp <- bind_cols(grps, bio_pop)
+```
+
+Comparing with rFIA, we have a match!
+```{r}
+biomass(clipFIA(fiaRI), totals = TRUE, bySpecies = TRUE)
+bio_pop_sp
+```
+
