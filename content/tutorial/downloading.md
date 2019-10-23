@@ -30,6 +30,12 @@ ct <- getFIA(states = 'CT', dir = '/path/to/save/data')
 northEast <- getFIA(states = c('ME', 'NH', 'VT', 'NY', 'CT', 'MA', 'RI'))
 ```
 
+You can also download REFERENCE tables listed on the <a href="https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html" target="_blank">FIA Datamart</a> by specifying `states = 'REF'`:
+```{r}
+## Get the forest type and forest type group reference tables
+ref <- getFIA(states = 'ref', tables = c('FOREST_TYPE', 'FOREST_TYPE_GROUP'))
+```
+
 
 <br>
 
