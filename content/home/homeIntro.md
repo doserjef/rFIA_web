@@ -47,6 +47,11 @@ weight = 2  # Order that this section will appear.
  css_class = ""
 +++
 
+<style>
+body {
+text-align: left}
+</style>
+
 <img style="float: right;" src="/img/vt_wp_mort1.jpg" hspace = 50 vspace = 40, width = 500>
 
 <style>

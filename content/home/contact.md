@@ -20,4 +20,7 @@ email_form = 0
 +++
 
 
-
+<style>
+body {
+text-align: left}
+</style>
