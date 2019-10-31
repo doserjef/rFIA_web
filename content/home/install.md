@@ -51,14 +51,30 @@ hero_media = "rLogo.png"
 
 +++
 
-Install the released version from [CRAN](https://CRAN.R-project.org) (COMING SOON):
+<p float="center">
+<a href="https://cran.r-project.org/package=rFIA" style="display:inline-block;">
+  <img src="https://www.r-pkg.org/badges/version/rFIA" style="border:0;">
+</a> <a href="https://cran.r-project.org/package=rFIA" style="display:inline-block;">
+  <img src="https://cranlogs.r-pkg.org/badges/grand-total/rFIA" style="border:0;">
+</a> <a href="https://travis-ci.org/hunter-stanke/rFIA" style="display:inline-block;">
+  <img src="https://travis-ci.org/hunter-stanke/rFIA.svg?branch=master" style="border:0;">
+</a> <a href="https://www.tidyverse.org/lifecycle/#maturing" style="display:inline-block">
+  <img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" style="border:0;">
+</a>
+
+</p>
+  
+
+
+
+Install the released version from [CRAN](https://CRAN.R-project.org):
 
 ``` r
 install.packages("rFIA")
 ```
 
-Or, install the development version from GitHub:
+
+Or, the development version from GitHub:
 ```r
 devtools::install_github('hunter-stanke/rFIA')
 ```
-

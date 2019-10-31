@@ -49,6 +49,10 @@ subtitle = ""
 
 -----------------------------------------
 
+
+
+
+
 `rFIA` is an R package aimed at increasing the accessibility and use of the USFS Forest Inventory and Analysis (FIA) Database. Providing a user-friendly, open source toolset to easily query and analyze FIA Data, `rFIA` simplifies the estimation of forest variables from the FIA Database and allows all R users (experts and newcomers alike) to unlock the flexibility and potential inherent to the Enhanced FIA design.
 
 Specifically, `rFIA` improves accessibility to the spatio-temporal estimation capacity of the FIA Database by producing space-time indexed summaries of forest variables within user-defined population boundaries. Direct integration with other popular R packages (e.g., `dplyr`, `sp`, and `sf`) facilitates efficient space-time query and data summary, and supports common data representations and API design. The package implements design-based estimation procedures outlined by Bechtold & Patterson (2005), and has been validated against estimates and sampling errors produced by FIA'S EVALIDator. 
