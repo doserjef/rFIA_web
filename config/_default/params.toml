@@ -8,6 +8,8 @@ color_theme = "default"
 # Enable users to switch between day and night mode?
 day_night = true
 
+
+
 # Font style.
 #   Choose from `default`, `classic`, `rose`, or `mr_robot`.
 font = "classic"

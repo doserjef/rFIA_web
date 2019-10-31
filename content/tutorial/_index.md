@@ -37,6 +37,7 @@ Alternatively, you can install the development version from GitHub:
 devtools::install_github('hunter-stanke/rFIA')
 ```
 
+
 <br>
 
 ## _**Functionality Overview**_
@@ -60,7 +61,7 @@ devtools::install_github('hunter-stanke/rFIA')
 <br>
 
 ## _**Learn More!**_
-- [Downloading FIA Data] ( {{< ref "/tutorial/downloading.md" >}} )
-- [Estimating Forest Attributes] ( {{< ref "/tutorial/basicAnalysis.md" >}} )
-- [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.md" >}} )
-- [Tips for Handling Big Data] ( {{< ref "/tutorial/bigData.md" >}} )
+- [Downloading FIA Data] ( {{< ref "/tutorial/downloading.markdown" >}} )
+- [Estimating Forest Attributes] ( {{< ref "/tutorial/basicAnalysis.markdown" >}} )
+- [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.markdown" >}} )
+- [Tips for Handling Big Data] ( {{< ref "/tutorial/bigData.markdown" >}} )
