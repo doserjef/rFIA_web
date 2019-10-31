@@ -22,6 +22,7 @@ menu:
     weight: 1
 ---
 
+
 ___
 <img src="/img/mr_fog_2017.jpg" hspace = 50 vspace = 40>
 
@@ -32,5 +33,5 @@ In the examples which follow, we will show you the methods which underpin the es
 
 
 ## _**Get Started Here**_
-- [At the plot-level] ( {{< ref "/courses/plt_est.md" >}} )
-- [Population estimation] ( {{< ref "/courses/pop_est.md" >}} )
+- [At the plot-level] ( {{< ref "/courses/plt_est.markdown" >}} )
+- [Population estimation] ( {{< ref "/courses/pop_est.markdown" >}} )

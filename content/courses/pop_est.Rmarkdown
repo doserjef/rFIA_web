@@ -13,14 +13,13 @@ menu:
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
 weight: 3
 ---
-
 ___
 
 In the code below, we highlight the basic estimation procedures used to compute population estimates of forest attributes from Forest Inventory and Analysis (FIA) data. We will demonstrate these procedures with the `fiaRI` dataset (included in the `rFIA` package) so that you can follow along. Download the R script for these examples <a href="/files/pop_est.R" target="_blank">here</a>.
 
 Our goal here is to estimate total tree biomass, total treecarbon (aboveground) and total forested area in the state of Rhode Island for the year 2018. From these totals, we will compute ratios of average tree biomass/ forested acre and average tree carbon/ forested acre. We will do this with and without sampling errors (without being much simpler), and show you how we handle grouped estimates in both cases. All estimates will be computed for live trees.
 
-{{% alert %}}
+{{% alert note %}}
 The source code for `rFIA` will vary slightly from that presented below as we designed `rFIA` to be as flexible and computationally efficient as possible. Despite the differences in syntax and structure, the estimation procedures presented below are identical to those in `rFIA`. You can find and download the full source code for `rFIA` from our <a href="https://github.com/hunter-stanke/rFIA" target="_blank">GitHub Repo</a>.
 {{% /alert %}}
 
@@ -29,13 +28,14 @@ The source code for `rFIA` will vary slightly from that presented below as we de
 # 
 ## **Data Preparation**
 First, let's load some packages and the `fiaRI` dataset:
-```{r}
+```{r warning= FALSE, message=FALSE}
 # Load some packages
 library(rFIA)
 library(dplyr)
 
 # Load the fiaRI dataset (included in rFIA)
 data(fiaRI)
+db <- fiaRI
 ```
 
 To compute population estimates of current area and current biomass/carbon from the FIADB, we need to identify and subset the necessary portions. To do this, we will use what FIA calls an EVALID, hence the name 'EVALIDator'.
@@ -56,7 +56,7 @@ Since we need some information stored in each of these tables to compute estimat
 ## Select only the columns we need from each table, to keep things slim
 PLOT <- select(db$PLOT, CN, MACRO_BREAKPOINT_DIA)
 COND <- select(db$COND, PLT_CN, CONDID, CONDPROP_UNADJ, PROP_BASIS, COND_STATUS_CD, OWNGRPCD)
-TREE <- select(db$TREE, PLT_CN, CONDID, SUBP, TREE, STATUSCD, DRYBIO_AG, CARBON_AG, TPA_UNADJ, DIA)
+TREE <- select(db$TREE, PLT_CN, CONDID, SUBP, TREE, STATUSCD, DRYBIO_AG, CARBON_AG, TPA_UNADJ, DIA, SPCD)
 POP_ESTN_UNIT <- select(db$POP_ESTN_UNIT, CN, EVAL_CN, AREA_USED, P1PNTCNT_EU)
 POP_EVAL <- select(db$POP_EVAL, EVALID, EVAL_GRP_CN, ESTN_METHOD, CN, END_INVYR, REPORT_YEAR_NM)
 POP_EVAL_TYP <- select(db$POP_EVAL_TYP, EVAL_TYP, EVAL_CN)
@@ -362,7 +362,7 @@ aDI <- data$aDI
 ```
 
 Now we can start our loop:
-```{r}
+```{r message=FALSE, warning=FALSE}
 ## Let's store each output in a list
 bio_pop <- list()
 ## Looping
@@ -471,7 +471,7 @@ bio_pop_sp <- bind_cols(grps, bio_pop)
 
 Comparing with rFIA, we have a match!
 ```{r}
-biomass(clipFIA(fiaRI), totals = TRUE, bySpecies = TRUE)
+head(biomass(clipFIA(fiaRI), totals = TRUE, bySpecies = TRUE))
 bio_pop_sp
 ```
 

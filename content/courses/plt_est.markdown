@@ -13,7 +13,6 @@ menu:
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
 weight: 2
 ---
-
 ___
 
 In the examples below, we highlight the basic estimation procedures used to compute plot-level estimates of forest attributes from Forest Inventory and Analysis (FIA) data. We will demonstrate these procedures for two plots contained in the `fiaRI` dataset (included in the `rFIA` package) so that you can follow along with a small dataset. Download the R script for these examples <a href="/files/plt_est.R" target="_blank">here</a>.
@@ -26,7 +25,8 @@ The source code for `rFIA` will vary slightly from that presented below as we de
 
 ## _**Two example plots**_
 First, let's load some packages and the `fiaRI` dataset:
-```{r}
+
+```r
 # Load some packages
 library(rFIA)
 library(dplyr)
@@ -36,7 +36,8 @@ data(fiaRI)
 ```
 
 To compute estimates of tree biomass/carbon at the plot-level, we really only need the tree, condition, and plot tables. In the code below, we will produce subsets the rows of these tables which pertain to our two plots of interest (`a` & `b` below):
-```{r}
+
+```r
 ## Some unique identifiers for two plots in fiaRI database object
 ## For example use below, both measured in 2014
 a <- 168263223020004  # One forested condition
@@ -53,14 +54,26 @@ tree_b <- filter(fiaRI$TREE, PLT_CN == b)
 ```
 
 Now that we have the tables we need for our plots of interest, let's take a look at their `COND` tables and see how these plots are different:
-```{r}
+
+```r
 ## COND_STATUS_CD indicates the basic land classification of a 
 ## condition, whether it is forested, non-forest, water, etc...
 ## COND_STATUS_CD = 1 indicates forested
 # Plot A
 cond_a$COND_STATUS_CD ## One, forested condition
+```
+
+```
+## [1] 1
+```
+
+```r
 # Plot B
 cond_b$COND_STATUS_CD ## Two forested, and one non-forest
+```
+
+```
+## [1] 1 1 2
 ```
 
 
@@ -70,11 +83,23 @@ The `COND` table lists the conditions, or land classes present on an FIA plot. C
 
 
 Since there are two forested conditions on Plot B, what is the basis for the distinction?
-```{r}
+
+```r
 # FORTYPCD indicates the forest type of the condition
 # PHYSCLCD indicates the Physiographic class (e.g. mesic moist slope)
 cond_b$FORTYPCD
+```
+
+```
+## [1] 505 708  NA
+```
+
+```r
 cond_b$PHYSCLCD
+```
+
+```
+## [1] 21 31 NA
 ```
 
 Looks like we have one forested condition in the Northern red oak forest type (`FORTYPCD = 505`) occuring on mesic flatwoods (`PHYSCLCD = 21`), and a second forested condition in the Red maple/lowland forest type (`FORTYPCD = 708`) on a hydric swamp/bog (`PHYSCLCD = 31`). The `NA` values relate to the non-forested condition on the plot (`COND_STATUS_CD > 1`). Hence it appears Plot B straddles an upland, wetland, and non-forested boundary!
@@ -83,7 +108,8 @@ Looks like we have one forested condition in the Northern red oak forest type (`
 
 ## _**Basic Estimation Procedures**_
 Now that we have the data for our two example plots, let's put them to work estimating tree biomass and carbon. First, we will join the plot, condtion, and tree tables for each plot:
-```{r}
+
+```r
 # Plot A
 tbl_a <- plot_a %>%
   # Rename the CN column in plot, PLT_CN for simple joining
@@ -105,7 +131,8 @@ Joining tables is important when we want to produce estimates grouped by fields 
 {{% /alert %}}
 
 To produce an estimate of the aboveground biomass and carbon per acre represented by all trees on the plot, we can simply take a sum the aboveground biomass and carbon (`CARBON_AG`) contained in each tree (`DRYBIO_AG`) multiplied by the trees per acre each tree represents (`TPA_UNADJ`):
-```{r}
+
+```r
 # Plot A
 all_a <- tbl_a %>%
   group_by(PLT_CN) %>%
@@ -122,15 +149,59 @@ We divide by 2000 here to convert estimates from lbs/acre to tons/acre, matching
 {{% /alert %}}
 
 If you have been following along in your own R session, let's check our estimates against `rFIA`. We've got a match!
-```{r}
+
+```r
 ## Producing biomass estimates on all plots in RI, for all trees on forestland
 rFIA_all <- biomass(fiaRI, byPlot = TRUE, treeType = 'all')
 # Plot A
 filter(rFIA_all, PLT_CN == a)
+```
+
+```
+## # A tibble: 1 x 11
+## # Groups:   PLT_CN [1]
+##    PLT_CN  YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
+##     <dbl> <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>
+## 1 1.68e14  2014       3111.       2086.        91.6        17.7     109.
+## # … with 4 more variables: CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>,
+## #   CARB_ACRE <dbl>, nStems <int>
+```
+
+```r
 all_a
+```
+
+```
+## # A tibble: 1 x 3
+##    PLT_CN BIO_AG_ACRE CARB_AG_ACRE
+##     <dbl>       <dbl>        <dbl>
+## 1 1.68e14        91.6         45.8
+```
+
+```r
 # Plot B
 filter(rFIA_all, PLT_CN == b)
+```
+
+```
+## # A tibble: 1 x 11
+## # Groups:   PLT_CN [1]
+##    PLT_CN  YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
+##     <dbl> <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>
+## 1 1.68e14  2014       3241.       1651.        110.        21.4     131.
+## # … with 4 more variables: CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>,
+## #   CARB_ACRE <dbl>, nStems <int>
+```
+
+```r
 all_b
+```
+
+```
+## # A tibble: 1 x 3
+##    PLT_CN BIO_AG_ACRE CARB_AG_ACRE
+##     <dbl>       <dbl>        <dbl>
+## 1 1.68e14        110.         54.9
 ```
 <br>
   
@@ -138,27 +209,56 @@ all_b
 But what if we want to produce estimates for a specific kind of tree? Say Northern Red Oak (`SPCD = 833`) which is greater than 12 inches DBH (`DIA > 12`). We accomplish this using what <a href="https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf" target="_blank">Bechtold and Patterson (2005)</a>  call a 'domain indicator' (see <a href="https://www.srs.fs.usda.gov/pubs/gtr/gtr_srs080/gtr_srs080.pdf" target="_blank">Eq. 4.1, pg. 47</a>). This is essentially just a vector which indicates whether a tree (or plot, condition, etc.) is within our domain of interest (red oak > 12"). 
 
 To construct the domain indicator, we just need a vector which is the same length as our joined table, and takes a value of 1 if the stem is in the domain and 0 otherwise:
-```{r}
+
+```r
 # Plot A
 tbl_a <- tbl_a %>%
   mutate(tDI = if_else(SPCD == 833 & DIA > 12, 1, 0))
 ## The domain indicator
 tbl_a$tDI
+```
+
+```
+##  [1] 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0
+## [36] 0
+```
+
+```r
 ## How many trees meet the criteria?
 sum(tbl_a$tDI, na.rm = TRUE)
+```
 
+```
+## [1] 3
+```
+
+```r
 # Plot B
 tbl_b <- tbl_b %>%
   mutate(tDI = if_else(SPCD == 833 & DIA > 12, 1, 0))
 ## The domain indicator
 tbl_b$tDI
+```
+
+```
+##  [1]  0  1  1  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+## [24]  0  1  1  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+## [47]  0  0  0  0  0  0  0  0 NA
+```
+
+```r
 ## How many trees meet the criteria?
 sum(tbl_b$tDI, na.rm = TRUE)
 ```
 
+```
+## [1] 6
+```
+
 Now we can use our new domain indicator (vector of 0s and 1s, `tDI`)  to produce estimates for any type of tree we specify! By adding `tDI` to the basic estimation procedures below, we force any tree which is not in our domain of interest to take a value of zero. Therefore, only trees which are within the domain of interest contribute to the plot-level estimate.
 
-```{r}
+
+```r
 # Plot A
 ro12_a <- tbl_a %>%
   group_by(PLT_CN) %>%
@@ -174,17 +274,61 @@ ro12_b <- tbl_b %>%
 rFIA_ro12 <- biomass(fiaRI, byPlot = TRUE, treeType = 'all', treeDomain = SPCD == 833 & DIA > 12)
 # Plot A
 filter(rFIA_ro12, PLT_CN == a)
+```
+
+```
+## # A tibble: 1 x 11
+## # Groups:   PLT_CN [1]
+##    PLT_CN  YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
+##     <dbl> <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>
+## 1 1.68e14  2014        709.        600.        22.3        4.27     26.5
+## # … with 4 more variables: CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>,
+## #   CARB_ACRE <dbl>, nStems <int>
+```
+
+```r
 ro12_a
+```
+
+```
+## # A tibble: 1 x 3
+##    PLT_CN BIO_AG_ACRE CARB_AG_ACRE
+##     <dbl>       <dbl>        <dbl>
+## 1 1.68e14        22.3         11.1
+```
+
+```r
 # Plot B
 filter(rFIA_ro12, PLT_CN == b)
+```
+
+```
+## # A tibble: 1 x 11
+## # Groups:   PLT_CN [1]
+##    PLT_CN  YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
+##     <dbl> <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>
+## 1 1.68e14  2014       1383.       1161.        43.3        8.29     51.6
+## # … with 4 more variables: CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>,
+## #   CARB_ACRE <dbl>, nStems <int>
+```
+
+```r
 ro12_b
+```
+
+```
+## # A tibble: 1 x 3
+##    PLT_CN BIO_AG_ACRE CARB_AG_ACRE
+##     <dbl>       <dbl>        <dbl>
+## 1 1.68e14        43.3         21.6
 ```
 
 <br>
 
 ## _**Grouped estimation procedures**_
 What if we want to produce estimates grouped by some attribute contained in the FIA Database, like forest type? We can accomplish by simply adding the attribute you want to group by to the `group_by` call in the estimation procedures above. This will then sum the biomass and carbon per acre of stems occuring on each forest type seperately.
-```{r}
+
+```r
 # Plot A
 for_a <- tbl_a %>%
   ## Adding FORTYPCD here
@@ -202,11 +346,58 @@ for_b <- tbl_b %>%
 rFIA_for <- biomass(fiaRI, byPlot = TRUE, treeType = 'all', grpBy = FORTYPCD)
 # Plot A
 filter(rFIA_for, PLT_CN == a) 
+```
+
+```
+## # A tibble: 1 x 12
+## # Groups:   PLT_CN, YEAR [1]
+##    PLT_CN  YEAR FORTYPCD NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE
+##     <dbl> <int>    <int>       <dbl>       <dbl>       <dbl>       <dbl>
+## 1 1.68e14  2014      503       3111.       2086.        91.6        17.7
+## # … with 5 more variables: BIO_ACRE <dbl>, CARB_AG_ACRE <dbl>,
+## #   CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>, nStems <int>
+```
+
+```r
 for_a # One forest type here, so only one row in the output
+```
+
+```
+## # A tibble: 1 x 4
+## # Groups:   PLT_CN [1]
+##    PLT_CN FORTYPCD BIO_AG_ACRE CARB_AG_ACRE
+##     <dbl>    <int>       <dbl>        <dbl>
+## 1 1.68e14      503        91.6         45.8
+```
+
+```r
 # Plot B
 filter(rFIA_for, PLT_CN == b)
-for_b # Two forest types here, so two rows in output. NA
-      # value is for the non-forested area
+```
+
+```
+## # A tibble: 2 x 12
+## # Groups:   PLT_CN, YEAR [1]
+##    PLT_CN  YEAR FORTYPCD NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE
+##     <dbl> <int>    <int>       <dbl>       <dbl>       <dbl>       <dbl>
+## 1 1.68e14  2014      505       2813.       1651.        96.6       18.7 
+## 2 1.68e14  2014      708        428.          0         13.1        2.64
+## # … with 5 more variables: BIO_ACRE <dbl>, CARB_AG_ACRE <dbl>,
+## #   CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>, nStems <int>
+```
+
+```r
+for_b # Two forest types here, so two rows in output.
+```
+
+```
+## # A tibble: 3 x 4
+## # Groups:   PLT_CN [1]
+##    PLT_CN FORTYPCD BIO_AG_ACRE CARB_AG_ACRE
+##     <dbl>    <int>       <dbl>        <dbl>
+## 1 1.68e14      505        96.6        48.3 
+## 2 1.68e14      708        13.1         6.57
+## 3 1.68e14       NA         0           0
 ```
 
 

@@ -21,7 +21,7 @@ ___
 The first step to using `rFIA` is to download subsets of the FIA Database. The easiest way to accomplish this is using `getFIA`.  Using one line of code, you can download state subsets of the FIA Database, load data into your R environment, and optionally save those data to a local directory for future use. Alternatively, you may also choose to download subsets as .csv files from the <a href="https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html" target="_blank">FIA Datamart</a> and load into R using `readFIA`.
 
 
-```{r}
+```{r eval=FALSE}
 ## Download the state subset or Connecticut (requires an internet connection)
 ## Save as an object to automatically load the data into your current R session!
 ct <- getFIA(states = 'CT', dir = '/path/to/save/data')
@@ -31,7 +31,7 @@ northEast <- getFIA(states = c('ME', 'NH', 'VT', 'NY', 'CT', 'MA', 'RI'))
 ```
 
 You can also download REFERENCE tables listed on the <a href="https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html" target="_blank">FIA Datamart</a> by specifying `states = 'REF'`:
-```{r}
+```{r eval=FALSE}
 ## Get the forest type and forest type group reference tables
 ref <- getFIA(states = 'ref', tables = c('FOREST_TYPE', 'FOREST_TYPE_GROUP'))
 ```
@@ -42,7 +42,7 @@ ref <- getFIA(states = 'ref', tables = c('FOREST_TYPE', 'FOREST_TYPE_GROUP'))
 ## _**Load data into R**_
 If you used `getFIA` to download data, then the database is automatically loaded into your current R session.  If you downloaded data manually from the <a href="https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html" target="_blank">FIA Datamart</a>, simply unzip the object, and save the .csv files in a local directory, and load them into R using `readFIA`: 
 
-```{r}
+```{r eval=FALSE}
 ## Load FIA Data from a local directory
 db <- readFIA('/path/to/your/directory/')
 ```
@@ -74,7 +74,7 @@ By default, `getFIA` and `readFIA` only loads/downloads the portions of the data
 ## _**The FIA.Database object**_
 When FIA data is loaded into R with `readFIA` or `getFIA`, those data are stored in an `FIA.Database` object. An `FIA.Database` object is essentially just a list, and users can access individual tables with `$`, `['']`, and `[['']]` operators: 
 
-```{r}
+```{r eval=FALSE}
 ## Access the TREE, PLOT, and COND tables 
 # Tree
 db$TREE

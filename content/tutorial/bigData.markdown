@@ -23,10 +23,11 @@ All `rFIA` estimator functions (as well as `readFIA` and `getFIA`) can be implem
 
 Parallelization is implemented with the parallel package. Parallel implementation is achieved using a snow type cluster on any Windows OS, and with multicore forking on any Unix OS (Linux, Mac). Implementing parallel processing may substantially decrease free memory during processing, particularly on Windows OS. Thus, users should be cautious when running in parallel, and consider implementing serial processing for this task if computational resources are limited (nCores = 1).
 
-``` {r}
+
+```r
 ## Check the number of cores available on your machine 
 ## Requires the parallel package, run library(parallel)
-detectCores(logical = FALSE)
+parallel::detectCores(logical = FALSE)
 
 ## On our machine, we find we have 4 physical cores. 
 ## To speed processing, we will split the workload 

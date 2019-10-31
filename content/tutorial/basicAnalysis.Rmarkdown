@@ -28,7 +28,7 @@ Are you only interested in producing estimates for a specific inventory year or 
 
 #### Load some data
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 ## Load rFIA package
 library(rFIA)
 
@@ -99,10 +99,10 @@ What if I want to group estimates by species? How about by size class? Easy! Jus
 tpaRI_species <- tpa(riMR, bySpecies = TRUE)
 
 ## Group estimates by size class
-tpaRI_sizeClass <- tpa(fiaRI_MR, bySizeClass = TRUE)
+tpaRI_sizeClass <- tpa(riMR, bySizeClass = TRUE)
 
 ## Group by species and size class, and plot the distribution 
-tpaRI_spsc <- tpa(fiaRI_MR, bySpecies = TRUE, bySizeClass = TRUE)
+tpaRI_spsc <- tpa(riMR, bySpecies = TRUE, bySizeClass = TRUE)
 ```
 
 <br>
@@ -115,19 +115,19 @@ To group estimates by a variable defined the FIA Database (other than species or
 ## NOTICE the variable names passed to grpBy are NOT quoted
 
 # Ownership Group
-tpaRI_own <- tpa(fiaRI_MR, grpBy = OWNGRPCD)
+tpaRI_own <- tpa(riMR, grpBy = OWNGRPCD)
 
 # Ownership Group (for all available inventories)
 tpaRI_ownAll <- tpa(fiaRI, grpBy = OWNGRPCD)
 
 # Site Productivity Class
-tpaRI_spc <- tpa(fiaRI_MR, grpBy = SITECLCD)
+tpaRI_spc <- tpa(riMR, grpBy = SITECLCD)
 
 # Forest Type
-tpaRI_ft <- tpa(fiaRI_MR, grpBy = FORTYPCD)
+tpaRI_ft <- tpa(riMR, grpBy = FORTYPCD)
 
 ## Combining multiple grouping variables: Site Productivity within Forest Types
-tpaRI_ftspc <- tpa(fiaRI_MR, grpBy = c(FORTYPCD, SITECLCD))
+tpaRI_ftspc <- tpa(riMR, grpBy = c(FORTYPCD, SITECLCD))
 ```
 
 {{% alert note %}}
@@ -142,10 +142,10 @@ Do you want estimates for a specific type of tree (eg. greater than 12-inches DB
 
 For a conditions related to trees of interest (e.g., diameter, height, crown class, etc.) pass a logical statement to `treeDomain`. For conditions related to area(e.g., ecoregions, counties, forest types, etc.), pass a logical statement to `areaDomain`. *These statements should NOT be quoted.*
 
-```{r}
+```{r eval=FALSE}
 ## Estimate abundance of trees greater than 12-inches DBH in a dominant 
 ## or subdominant canopy position growing on mesic sites
-tpaRI_domain <- tpa(fiaRI_MR, 
+tpaRI_domain <- tpa(riMR, 
                  treeDomain = DIA > 12 & CCLCD %in% c(1,2),
                  areaDomain = PHYSCLCD %in% 20:29)
                  
@@ -163,11 +163,11 @@ You can find definitions of all variables in the FIA Database in the the <a href
 
 
 ## _**Visualization**_
-Now that we have produced some estimates, we should translate them into plots so we can easily see the status and trends in our selected forest attributes. Using `plotFIA`, we can easily produce (1) simple or grouped time series plots, (2) simple or grouped plots with a user defined x-axis (e.g., size class), and (3) spatial choropleth maps (see [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.md" >}} )).
+Now that we have produced some estimates, we should translate them into plots so we can easily see the status and trends in our selected forest attributes. Using `plotFIA`, we can easily produce (1) simple or grouped time series plots, (2) simple or grouped plots with a user defined x-axis (e.g., size class), and (3) spatial choropleth maps (see [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.markdown" >}} )).
 
 #### Time Series Plots
 By default, `plotFIA` will produce time series plots if you produced estimates for more than one reporting year and do not specify a non-temporal x-axis. To produce a grouped time series, simply hand the grouping variables to the `grp` argument of `plotFIA` (should correspond with the `grpBy` argument of estimating function).
-```{r}
+```{r eval=FALSE}
 ## Using our estimates from above (all inventory years in RI)
 plotFIA(tpaRI, y = BAA, plot.title = 'Simple Time Series')
 
@@ -180,7 +180,7 @@ plotFIA(tpaRI_ownAll, y = BAA, grp = OWNGRPCD, plot.title = 'Grouped Time Series
 
 #### Non-temporal plots
 To define your own x-axis, simply specify the variable you would like to use in the `x` argument of the `plotFIA` call. This is great for plotting things like size-class distributions. Since these plots do not have time as axis, they are best suited for plotting estimates from a single point in time (e.g., a most recent subset).
-```{r}
+```{r eval=FALSE}
 ## Using our estimates from above (all inventory years in RI)
 plotFIA(tpaRI_sizeClass, y = BAA, x = sizeClass, plot.title = 'Simple size class distribution')
 
