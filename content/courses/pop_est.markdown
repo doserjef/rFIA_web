@@ -53,6 +53,11 @@ ids <- db$POP_EVAL %>%
 db <- clipFIA(db, evalid = ids$EVALID)
 ```
 
+```
+## Warning in clipFIA(db, evalid = ids$EVALID): Returning subset by EVALID only.
+## For most recent subset, specify `evalid = NULL` and `mostRecent = TRUE`.
+```
+
 Since we need some information stored in each of these tables to compute estimates, we will join them into one big dataframe (let's call that `data`) that we can operate on.
 
 ```r
@@ -190,18 +195,21 @@ biomass(clipFIA(fiaRI), totals = TRUE)
 ```
 
 ```
-##   YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
-## 1 2018    2491.167    1418.605    70.37259     13.9919 84.36449
-##   CARB_AG_ACRE CARB_BG_ACRE CARB_ACRE NETVOL_ACRE_SE SAWVOL_ACRE_SE
-## 1     35.18629     6.995952  42.18225       4.212767       7.184325
-##   BIO_AG_ACRE_SE BIO_BG_ACRE_SE BIO_ACRE_SE CARB_AG_ACRE_SE
-## 1       3.566183       3.555699    3.561156        3.566183
-##   CARB_BG_ACRE_SE CARB_ACRE_SE NETVOL_TOTAL SAWVOL_TOTAL BIO_AG_TOTAL
-## 1        3.555699     3.561156    914155471    520569323     25823833
-##   BIO_BG_TOTAL BIO_TOTAL CARB_AG_TOTAL CARB_BG_TOTAL CARB_TOTAL AREA_TOTAL
-## 1      5134451  30958284      12911916       2567225   15479142   366958.7
-##   nPlots_VOL nPlots_AREA
-## 1        126         127
+## # A tibble: 1 x 37
+##    YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE CARB_AG_ACRE
+##   <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>        <dbl>
+## 1  2018       2491.       1419.        70.4        14.0     84.4         35.2
+## # ... with 30 more variables: CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>,
+## #   NETVOL_TOTAL <dbl>, SAWVOL_TOTAL <dbl>, BIO_AG_TOTAL <dbl>,
+## #   BIO_BG_TOTAL <dbl>, BIO_TOTAL <dbl>, CARB_AG_TOTAL <dbl>,
+## #   CARB_BG_TOTAL <dbl>, CARB_TOTAL <dbl>, AREA_TOTAL <dbl>,
+## #   NETVOL_ACRE_SE <dbl>, SAWVOL_ACRE_SE <dbl>, BIO_AG_ACRE_SE <dbl>,
+## #   BIO_BG_ACRE_SE <dbl>, BIO_ACRE_SE <dbl>, CARB_AG_ACRE_SE <dbl>,
+## #   CARB_BG_ACRE_SE <dbl>, CARB_ACRE_SE <dbl>, NETVOL_TOTAL_SE <dbl>,
+## #   SAWVOL_TOTAL_SE <dbl>, BIO_AG_TOTAL_SE <dbl>, BIO_BG_TOTAL_SE <dbl>,
+## #   BIO_TOTAL_SE <dbl>, CARB_AG_TOTAL_SE <dbl>, CARB_BG_TOTAL_SE <dbl>,
+## #   CARB_TOTAL_SE <dbl>, AREA_TOTAL_SE <dbl>, nPlots_TREE <dbl>,
+## #   nPlots_AREA <dbl>
 ```
 
 ```r
@@ -209,10 +217,14 @@ bio
 ```
 
 ```
-## # A tibble: 1 x 6
+## # A tibble: 5 x 6
 ##    YEAR BIO_AG_ACRE CARB_AG_ACRE BIO_AG_TOTAL CARB_AG_TOTAL AREA_TOTAL
 ##   <int>       <dbl>        <dbl>        <dbl>         <dbl>      <dbl>
-## 1  2018        70.4         35.2    25823833.     12911916.    366959.
+## 1  2014        68.0         34.0    25033359.     12516679.    367884.
+## 2  2015        69.1         34.6    25559575.     12779788.    369844.
+## 3  2016        70.6         35.3    25852439.     12926219.    366364.
+## 4  2017        70.8         35.4    26063235.     13031617.    368373.
+## 5  2018        70.4         35.2    25823833.     12911916.    366959.
 ```
 
 <br>
@@ -268,24 +280,22 @@ biomass(clipFIA(fiaRI), totals = TRUE, grpBy = OWNGRPCD)
 ```
 
 ```
-##   YEAR OWNGRPCD NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
-## 1 2018       30    2614.533    1614.125    71.78929    14.40813 86.19742
-## 2 2018       40    2436.484    1331.938    69.74462    13.80741 83.55202
-##   CARB_AG_ACRE CARB_BG_ACRE CARB_ACRE NETVOL_ACRE_SE SAWVOL_ACRE_SE
-## 1     35.89464     7.204066  43.09871       8.836977      13.751081
-## 2     34.87231     6.903703  41.77601       4.600828       8.185484
-##   BIO_AG_ACRE_SE BIO_BG_ACRE_SE BIO_ACRE_SE CARB_AG_ACRE_SE
-## 1       7.608977       7.567205    7.594343        7.608977
-## 2       3.896017       3.874984    3.889238        3.896017
-##   CARB_BG_ACRE_SE CARB_ACRE_SE NETVOL_TOTAL SAWVOL_TOTAL BIO_AG_TOTAL
-## 1        7.567205     7.594343    294663824    181915597      8090815
-## 2        3.874984     3.889238    619491647    338653726     17733018
-##   BIO_BG_TOTAL BIO_TOTAL CARB_AG_TOTAL CARB_BG_TOTAL CARB_TOTAL AREA_TOTAL
-## 1      1623829   9714644       4045408      811914.6    4857322   112702.3
-## 2      3510622  21243639       8866509     1755310.9   10621820   254256.4
-##   nPlots_VOL nPlots_AREA
-## 1         40          41
-## 2         89          89
+## # A tibble: 2 x 38
+##    YEAR OWNGRPCD NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
+##   <int>    <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>
+## 1  2018       30       2615.       1614.        71.8        14.4     86.2
+## 2  2018       40       2436.       1332.        69.7        13.8     83.6
+## # ... with 31 more variables: CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>,
+## #   CARB_ACRE <dbl>, NETVOL_TOTAL <dbl>, SAWVOL_TOTAL <dbl>,
+## #   BIO_AG_TOTAL <dbl>, BIO_BG_TOTAL <dbl>, BIO_TOTAL <dbl>,
+## #   CARB_AG_TOTAL <dbl>, CARB_BG_TOTAL <dbl>, CARB_TOTAL <dbl>,
+## #   AREA_TOTAL <dbl>, NETVOL_ACRE_SE <dbl>, SAWVOL_ACRE_SE <dbl>,
+## #   BIO_AG_ACRE_SE <dbl>, BIO_BG_ACRE_SE <dbl>, BIO_ACRE_SE <dbl>,
+## #   CARB_AG_ACRE_SE <dbl>, CARB_BG_ACRE_SE <dbl>, CARB_ACRE_SE <dbl>,
+## #   NETVOL_TOTAL_SE <dbl>, SAWVOL_TOTAL_SE <dbl>, BIO_AG_TOTAL_SE <dbl>,
+## #   BIO_BG_TOTAL_SE <dbl>, BIO_TOTAL_SE <dbl>, CARB_AG_TOTAL_SE <dbl>,
+## #   CARB_BG_TOTAL_SE <dbl>, CARB_TOTAL_SE <dbl>, AREA_TOTAL_SE <dbl>,
+## #   nPlots_TREE <dbl>, nPlots_AREA <dbl>
 ```
 
 ```r
@@ -293,14 +303,25 @@ bioGrp
 ```
 
 ```
-## # A tibble: 3 x 7
-## # Groups:   YEAR [1]
-##    YEAR OWNGRPCD BIO_AG_ACRE CARB_AG_ACRE BIO_AG_TOTAL CARB_AG_TOTAL
-##   <int>    <int>       <dbl>        <dbl>        <dbl>         <dbl>
-## 1  2018       30        71.8         35.9     8090815.      4045408.
-## 2  2018       40        69.7         34.9    17733018.      8866509.
-## 3  2018       NA       NaN          NaN             0             0 
-## # … with 1 more variable: AREA_TOTAL <dbl>
+## # A tibble: 15 x 7
+## # Groups:   YEAR [5]
+##     YEAR OWNGRPCD BIO_AG_ACRE CARB_AG_ACRE BIO_AG_TOTAL CARB_AG_TOTAL AREA_TOTAL
+##    <int>    <int>       <dbl>        <dbl>        <dbl>         <dbl>      <dbl>
+##  1  2014       30        69.9         34.9     7513432.      3756716.    107532.
+##  2  2014       40        67.3         33.6    17519927.      8759963.    260353.
+##  3  2014       NA       NaN          NaN             0             0          0 
+##  4  2015       30        70.7         35.3     7441888.      3720944.    105299.
+##  5  2015       40        68.5         34.2    18117688.      9058844.    264546.
+##  6  2015       NA       NaN          NaN             0             0          0 
+##  7  2016       30        71.8         35.9     7666303.      3833151.    106763.
+##  8  2016       40        70.1         35.0    18186136.      9093068.    259601.
+##  9  2016       NA       NaN          NaN             0             0          0 
+## 10  2017       30        70.5         35.3     8015385.      4007692.    113648.
+## 11  2017       40        70.9         35.4    18047850.      9023925.    254725.
+## 12  2017       NA       NaN          NaN             0             0          0 
+## 13  2018       30        71.8         35.9     8090815.      4045408.    112702.
+## 14  2018       40        69.7         34.9    17733018.      8866509.    254256.
+## 15  2018       NA       NaN          NaN             0             0          0
 ```
 {{% alert %}}
 If adapting this code for your own use, make sure that your grouping variables are included in the `select` calls in
@@ -432,18 +453,21 @@ biomass(clipFIA(fiaRI), totals = TRUE)
 ```
 
 ```
-##   YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
-## 1 2018    2491.167    1418.605    70.37259     13.9919 84.36449
-##   CARB_AG_ACRE CARB_BG_ACRE CARB_ACRE NETVOL_ACRE_SE SAWVOL_ACRE_SE
-## 1     35.18629     6.995952  42.18225       4.212767       7.184325
-##   BIO_AG_ACRE_SE BIO_BG_ACRE_SE BIO_ACRE_SE CARB_AG_ACRE_SE
-## 1       3.566183       3.555699    3.561156        3.566183
-##   CARB_BG_ACRE_SE CARB_ACRE_SE NETVOL_TOTAL SAWVOL_TOTAL BIO_AG_TOTAL
-## 1        3.555699     3.561156    914155471    520569323     25823833
-##   BIO_BG_TOTAL BIO_TOTAL CARB_AG_TOTAL CARB_BG_TOTAL CARB_TOTAL AREA_TOTAL
-## 1      5134451  30958284      12911916       2567225   15479142   366958.7
-##   nPlots_VOL nPlots_AREA
-## 1        126         127
+## # A tibble: 1 x 37
+##    YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE CARB_AG_ACRE
+##   <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>        <dbl>
+## 1  2018       2491.       1419.        70.4        14.0     84.4         35.2
+## # ... with 30 more variables: CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>,
+## #   NETVOL_TOTAL <dbl>, SAWVOL_TOTAL <dbl>, BIO_AG_TOTAL <dbl>,
+## #   BIO_BG_TOTAL <dbl>, BIO_TOTAL <dbl>, CARB_AG_TOTAL <dbl>,
+## #   CARB_BG_TOTAL <dbl>, CARB_TOTAL <dbl>, AREA_TOTAL <dbl>,
+## #   NETVOL_ACRE_SE <dbl>, SAWVOL_ACRE_SE <dbl>, BIO_AG_ACRE_SE <dbl>,
+## #   BIO_BG_ACRE_SE <dbl>, BIO_ACRE_SE <dbl>, CARB_AG_ACRE_SE <dbl>,
+## #   CARB_BG_ACRE_SE <dbl>, CARB_ACRE_SE <dbl>, NETVOL_TOTAL_SE <dbl>,
+## #   SAWVOL_TOTAL_SE <dbl>, BIO_AG_TOTAL_SE <dbl>, BIO_BG_TOTAL_SE <dbl>,
+## #   BIO_TOTAL_SE <dbl>, CARB_AG_TOTAL_SE <dbl>, CARB_BG_TOTAL_SE <dbl>,
+## #   CARB_TOTAL_SE <dbl>, AREA_TOTAL_SE <dbl>, nPlots_TREE <dbl>,
+## #   nPlots_AREA <dbl>
 ```
 
 ```r
@@ -451,11 +475,15 @@ bio_pop
 ```
 
 ```
-## # A tibble: 1 x 11
+## # A tibble: 5 x 11
 ##    YEAR BIO_AG_ACRE CARB_AG_ACRE BIO_AG_TOTAL CARB_AG_TOTAL AREA_TOTAL
 ##   <int>       <dbl>        <dbl>        <dbl>         <dbl>      <dbl>
-## 1  2018        70.4         35.2    25823833.     12911916.    366959.
-## # … with 5 more variables: BIO_AG_ACRE_SE <dbl>, CARB_AG_ACRE_SE <dbl>,
+## 1  2014        68.0         34.0    25033359.     12516679.    367884.
+## 2  2015        69.1         34.6    25559575.     12779788.    369844.
+## 3  2016        70.6         35.3    25852439.     12926219.    366364.
+## 4  2017        70.8         35.4    26063235.     13031617.    368373.
+## 5  2018        70.4         35.2    25823833.     12911916.    366959.
+## # ... with 5 more variables: BIO_AG_ACRE_SE <dbl>, CARB_AG_ACRE_SE <dbl>,
 ## #   BIO_AG_TOTAL_SE <dbl>, CARB_AG_TOTAL_SE <dbl>, AREA_TOTAL_SE <dbl>
 ```
 
@@ -599,55 +627,27 @@ head(biomass(clipFIA(fiaRI), totals = TRUE, bySpecies = TRUE))
 ```
 
 ```
-##   YEAR SPCD          COMMON_NAME        SCIENTIFIC_NAME NETVOL_ACRE
-## 1 2018   12           balsam fir         Abies balsamea   0.4223927
-## 2 2018   43 Atlantic white-cedar Chamaecyparis thyoides   2.6154887
-## 3 2018   68     eastern redcedar   Juniperus virginiana   1.3420926
-## 4 2018   96          blue spruce          Picea pungens   0.0000000
-## 5 2018  126           pitch pine           Pinus rigida  55.7317053
-## 6 2018  129   eastern white pine          Pinus strobus 480.8755624
-##   SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE     BIO_ACRE CARB_AG_ACRE
-## 1   0.0000000 0.006968316 0.001613069  0.008581385  0.003484158
-## 2   0.7423384 0.040320445 0.009202693  0.049523139  0.020160223
-## 3   0.0000000 0.030839290 0.007236642  0.038075931  0.015419645
-## 4   0.0000000 0.000000000 0.000000000  0.000000000  0.000000000
-## 5  43.7816108 1.182804881 0.269793871  1.452598752  0.591402441
-## 6 405.6266240 8.523586094 1.937087954 10.460674048  4.261793056
-##   CARB_BG_ACRE   CARB_ACRE NETVOL_ACRE_SE SAWVOL_ACRE_SE BIO_AG_ACRE_SE
-## 1 0.0008065347 0.004290693      114.02897            NaN      114.02897
-## 2 0.0046013467 0.024761569       57.53011       94.93053       56.39166
-## 3 0.0036183212 0.019037966       71.57689            NaN       70.03731
-## 4 0.0000000000 0.000000000            NaN            NaN            NaN
-## 5 0.1348969363 0.726299378       47.90559       51.29705       47.60843
-## 6 0.9685439854 5.230337042       19.28087       20.41315       18.68059
-##   BIO_BG_ACRE_SE BIO_ACRE_SE CARB_AG_ACRE_SE CARB_BG_ACRE_SE CARB_ACRE_SE
-## 1      114.02897   114.02897       114.02897       114.02897    114.02897
-## 2       56.42615    56.39803        56.39166        56.42615     56.39803
-## 3       69.42436    69.92003        70.03731        69.42436     69.92003
-## 4            NaN         NaN             NaN             NaN          NaN
-## 5       47.37650    47.56516        47.60843        47.37650     47.56516
-## 6       18.60417    18.66636        18.68059        18.60417     18.66636
-##   NETVOL_TOTAL SAWVOL_TOTAL BIO_AG_TOTAL BIO_BG_TOTAL   BIO_TOTAL
-## 1     155000.7          0.0     2557.084     591.9299    3149.014
-## 2     959776.3     272407.5    14795.938    3377.0084   18172.947
-## 3     492492.6          0.0    11316.746    2655.5487   13972.294
-## 4          0.0          0.0        0.000       0.0000       0.000
-## 5   20451234.1   16066042.9   434040.540   99003.2079  533043.748
-## 6  176461470.8  148848218.2  3127804.064  710831.2754 3838635.340
-##   CARB_AG_TOTAL CARB_BG_TOTAL  CARB_TOTAL AREA_TOTAL nPlots_VOL
-## 1      1278.542      295.9649    1574.507   366958.7          1
-## 2      7397.969     1688.5042    9086.473   366958.7          3
-## 3      5658.373     1327.7744    6986.147   366958.7          5
-## 4         0.000        0.0000       0.000   366958.7          0
-## 5    217020.270    49501.6043  266521.875   366958.7         10
-## 6   1563902.036   355415.6408 1919317.676   366958.7         63
-##   nPlots_AREA
-## 1         127
-## 2         127
-## 3         127
-## 4         127
-## 5         127
-## 6         127
+## # A tibble: 6 x 40
+##    YEAR  SPCD COMMON_NAME SCIENTIFIC_NAME NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE
+##   <int> <int> <chr>       <chr>                 <dbl>       <dbl>       <dbl>
+## 1  2018    12 balsam fir  Abies balsamea        0.422       0         0.00697
+## 2  2018    43 Atlantic w~ Chamaecyparis ~       2.62        0.742     0.0403 
+## 3  2018    68 eastern re~ Juniperus virg~       1.34        0         0.0308 
+## 4  2018   126 pitch pine  Pinus rigida         55.7        43.8       1.18   
+## 5  2018   129 eastern wh~ Pinus strobus       481.        406.        8.52   
+## 6  2018   130 Scotch pine Pinus sylvestr~       0.156       0         0.00314
+## # ... with 33 more variables: BIO_BG_ACRE <dbl>, BIO_ACRE <dbl>,
+## #   CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>,
+## #   NETVOL_TOTAL <dbl>, SAWVOL_TOTAL <dbl>, BIO_AG_TOTAL <dbl>,
+## #   BIO_BG_TOTAL <dbl>, BIO_TOTAL <dbl>, CARB_AG_TOTAL <dbl>,
+## #   CARB_BG_TOTAL <dbl>, CARB_TOTAL <dbl>, AREA_TOTAL <dbl>,
+## #   NETVOL_ACRE_SE <dbl>, SAWVOL_ACRE_SE <dbl>, BIO_AG_ACRE_SE <dbl>,
+## #   BIO_BG_ACRE_SE <dbl>, BIO_ACRE_SE <dbl>, CARB_AG_ACRE_SE <dbl>,
+## #   CARB_BG_ACRE_SE <dbl>, CARB_ACRE_SE <dbl>, NETVOL_TOTAL_SE <dbl>,
+## #   SAWVOL_TOTAL_SE <dbl>, BIO_AG_TOTAL_SE <dbl>, BIO_BG_TOTAL_SE <dbl>,
+## #   BIO_TOTAL_SE <dbl>, CARB_AG_TOTAL_SE <dbl>, CARB_BG_TOTAL_SE <dbl>,
+## #   CARB_TOTAL_SE <dbl>, AREA_TOTAL_SE <dbl>, nPlots_TREE <dbl>,
+## #   nPlots_AREA <dbl>
 ```
 
 ```r
@@ -655,22 +655,22 @@ bio_pop_sp
 ```
 
 ```
-## # A tibble: 50 x 12
-## # Groups:   YEAR [1]
-##     YEAR  SPCD BIO_AG_ACRE CARB_AG_ACRE BIO_AG_TOTAL CARB_AG_TOTAL
-##    <int> <int>       <dbl>        <dbl>        <dbl>         <dbl>
-##  1  2018    12     0.00697      0.00348        2557.         1279.
-##  2  2018    43     0.0403       0.0202        14796.         7398.
-##  3  2018    68     0.0308       0.0154        11317.         5658.
-##  4  2018    96     0            0                 0             0 
-##  5  2018   126     1.18         0.591        434041.       217020.
-##  6  2018   129     8.52         4.26        3127804.      1563902.
-##  7  2018   130     0.00314      0.00157        1153.          576.
-##  8  2018   261     0.801        0.400        293835.       146918.
-##  9  2018   313     0.0185       0.00924        6779.         3389.
-## 10  2018   316    15.7          7.87        5777664.      2888832.
-## # … with 40 more rows, and 6 more variables: AREA_TOTAL <dbl>,
-## #   BIO_AG_ACRE_SE <dbl>, CARB_AG_ACRE_SE <dbl>, BIO_AG_TOTAL_SE <dbl>,
-## #   CARB_AG_TOTAL_SE <dbl>, AREA_TOTAL_SE <dbl>
+## # A tibble: 253 x 12
+## # Groups:   YEAR [5]
+##     YEAR  SPCD BIO_AG_ACRE CARB_AG_ACRE BIO_AG_TOTAL CARB_AG_TOTAL AREA_TOTAL
+##    <int> <int>       <dbl>        <dbl>        <dbl>         <dbl>      <dbl>
+##  1  2014    12     0.00708      0.00354        2604.         1302.    367884.
+##  2  2014    43     0.0300       0.0150        11020.         5510.    367884.
+##  3  2014    68     0.0293       0.0146        10763.         5382.    367884.
+##  4  2014    96     0            0                 0             0     367884.
+##  5  2014   126     1.22         0.608        447070.       223535.    367884.
+##  6  2014   129     7.99         4.00        2939774.      1469887.    367884.
+##  7  2014   130     0.00325      0.00163        1197.          599.    367884.
+##  8  2014   261     0.763        0.382        280807.       140404.    367884.
+##  9  2014   313     0.0141       0.00703        5173.         2586.    367884.
+## 10  2014   316    15.0          7.50        5516182.      2758091.    367884.
+## # ... with 243 more rows, and 5 more variables: BIO_AG_ACRE_SE <dbl>,
+## #   CARB_AG_ACRE_SE <dbl>, BIO_AG_TOTAL_SE <dbl>, CARB_AG_TOTAL_SE <dbl>,
+## #   AREA_TOTAL_SE <dbl>
 ```
 

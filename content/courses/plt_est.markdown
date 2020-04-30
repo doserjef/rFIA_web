@@ -158,13 +158,12 @@ filter(rFIA_all, PLT_CN == a)
 ```
 
 ```
-## # A tibble: 1 x 11
-## # Groups:   PLT_CN [1]
-##    PLT_CN  YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
-##     <dbl> <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>
-## 1 1.68e14  2014       3111.       2086.        91.6        17.7     109.
-## # … with 4 more variables: CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>,
-## #   CARB_ACRE <dbl>, nStems <int>
+## # A tibble: 1 x 13
+##    PLT_CN  YEAR pltID PLOT_STATUS_CD NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE
+##     <dbl> <int> <chr>          <int>       <dbl>       <dbl>       <dbl>
+## 1 1.68e14  2014 1_44~              1       3111.       2086.        91.6
+## # ... with 6 more variables: BIO_BG_ACRE <dbl>, BIO_ACRE <dbl>,
+## #   CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>, nStems <int>
 ```
 
 ```r
@@ -184,13 +183,12 @@ filter(rFIA_all, PLT_CN == b)
 ```
 
 ```
-## # A tibble: 1 x 11
-## # Groups:   PLT_CN [1]
-##    PLT_CN  YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
-##     <dbl> <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>
-## 1 1.68e14  2014       3241.       1651.        110.        21.4     131.
-## # … with 4 more variables: CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>,
-## #   CARB_ACRE <dbl>, nStems <int>
+## # A tibble: 1 x 13
+##    PLT_CN  YEAR pltID PLOT_STATUS_CD NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE
+##     <dbl> <int> <chr>          <int>       <dbl>       <dbl>       <dbl>
+## 1 1.68e14  2014 1_44~              1       3241.       1651.        110.
+## # ... with 6 more variables: BIO_BG_ACRE <dbl>, BIO_ACRE <dbl>,
+## #   CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>, nStems <int>
 ```
 
 ```r
@@ -219,8 +217,7 @@ tbl_a$tDI
 ```
 
 ```
-##  [1] 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0
-## [36] 0
+##  [1] 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 ```
 
 ```r
@@ -241,9 +238,9 @@ tbl_b$tDI
 ```
 
 ```
-##  [1]  0  1  1  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-## [24]  0  1  1  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-## [47]  0  0  0  0  0  0  0  0 NA
+##  [1]  0  1  1  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1
+## [26]  1  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+## [51]  0  0  0  0 NA
 ```
 
 ```r
@@ -277,13 +274,12 @@ filter(rFIA_ro12, PLT_CN == a)
 ```
 
 ```
-## # A tibble: 1 x 11
-## # Groups:   PLT_CN [1]
-##    PLT_CN  YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
-##     <dbl> <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>
-## 1 1.68e14  2014        709.        600.        22.3        4.27     26.5
-## # … with 4 more variables: CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>,
-## #   CARB_ACRE <dbl>, nStems <int>
+## # A tibble: 1 x 13
+##    PLT_CN  YEAR pltID PLOT_STATUS_CD NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE
+##     <dbl> <int> <chr>          <int>       <dbl>       <dbl>       <dbl>
+## 1 1.68e14  2014 1_44~              1        709.        600.        22.3
+## # ... with 6 more variables: BIO_BG_ACRE <dbl>, BIO_ACRE <dbl>,
+## #   CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>, nStems <int>
 ```
 
 ```r
@@ -303,13 +299,12 @@ filter(rFIA_ro12, PLT_CN == b)
 ```
 
 ```
-## # A tibble: 1 x 11
-## # Groups:   PLT_CN [1]
-##    PLT_CN  YEAR NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE BIO_ACRE
-##     <dbl> <int>       <dbl>       <dbl>       <dbl>       <dbl>    <dbl>
-## 1 1.68e14  2014       1383.       1161.        43.3        8.29     51.6
-## # … with 4 more variables: CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>,
-## #   CARB_ACRE <dbl>, nStems <int>
+## # A tibble: 1 x 13
+##    PLT_CN  YEAR pltID PLOT_STATUS_CD NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE
+##     <dbl> <int> <chr>          <int>       <dbl>       <dbl>       <dbl>
+## 1 1.68e14  2014 1_44~              1       1383.       1161.        43.3
+## # ... with 6 more variables: BIO_BG_ACRE <dbl>, BIO_ACRE <dbl>,
+## #   CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>, nStems <int>
 ```
 
 ```r
@@ -349,13 +344,13 @@ filter(rFIA_for, PLT_CN == a)
 ```
 
 ```
-## # A tibble: 1 x 12
-## # Groups:   PLT_CN, YEAR [1]
-##    PLT_CN  YEAR FORTYPCD NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE
-##     <dbl> <int>    <int>       <dbl>       <dbl>       <dbl>       <dbl>
-## 1 1.68e14  2014      503       3111.       2086.        91.6        17.7
-## # … with 5 more variables: BIO_ACRE <dbl>, CARB_AG_ACRE <dbl>,
-## #   CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>, nStems <int>
+## # A tibble: 1 x 14
+##    PLT_CN  YEAR pltID FORTYPCD PLOT_STATUS_CD NETVOL_ACRE SAWVOL_ACRE
+##     <dbl> <int> <chr>    <int>          <int>       <dbl>       <dbl>
+## 1 1.68e14  2014 1_44~      503              1       3111.       2086.
+## # ... with 7 more variables: BIO_AG_ACRE <dbl>, BIO_BG_ACRE <dbl>,
+## #   BIO_ACRE <dbl>, CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>,
+## #   nStems <int>
 ```
 
 ```r
@@ -376,14 +371,14 @@ filter(rFIA_for, PLT_CN == b)
 ```
 
 ```
-## # A tibble: 2 x 12
-## # Groups:   PLT_CN, YEAR [1]
-##    PLT_CN  YEAR FORTYPCD NETVOL_ACRE SAWVOL_ACRE BIO_AG_ACRE BIO_BG_ACRE
-##     <dbl> <int>    <int>       <dbl>       <dbl>       <dbl>       <dbl>
-## 1 1.68e14  2014      505       2813.       1651.        96.6       18.7 
-## 2 1.68e14  2014      708        428.          0         13.1        2.64
-## # … with 5 more variables: BIO_ACRE <dbl>, CARB_AG_ACRE <dbl>,
-## #   CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>, nStems <int>
+## # A tibble: 2 x 14
+##    PLT_CN  YEAR pltID FORTYPCD PLOT_STATUS_CD NETVOL_ACRE SAWVOL_ACRE
+##     <dbl> <int> <chr>    <int>          <int>       <dbl>       <dbl>
+## 1 1.68e14  2014 1_44~      505              1       2813.       1651.
+## 2 1.68e14  2014 1_44~      708              1        428.          0 
+## # ... with 7 more variables: BIO_AG_ACRE <dbl>, BIO_BG_ACRE <dbl>,
+## #   BIO_ACRE <dbl>, CARB_AG_ACRE <dbl>, CARB_BG_ACRE <dbl>, CARB_ACRE <dbl>,
+## #   nStems <int>
 ```
 
 ```r

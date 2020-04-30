@@ -59,4 +59,7 @@ Specifically, `rFIA` improves accessibility to the spatio-temporal estimation ca
 
 Current development is focused on the implementation of spatially-enabled model-assisted estimators to improve population, change, and ratio estimation. We enivision `rFIA` as a key component in the future of the FIA Program, targetting expansion in small area estimation, timber product monitoring, urban inventory, and the development oflong-term monitoring and reporting tools.
 
-See [Example Usage] ( {{< ref "/tutorial/_index.md" >}} ) to get started, or [contact us] ( {{< relref "#contact" >}} ) to see how we can help with your specific project needs! 
+See [Example Usage] ( {{< ref "/tutorial/_index.md" >}} ) to get started. To report a bug or suggest additions to `rFIA`, please use our [active issues](https://github.com/hunter-stanke/rFIA/issues) page on GitHub, or contact [Hunter Stanke](https://hunter-stanke.com/) (lead developer and maintainer). _**To cite**_ `rFIA`, please refer to our recent publication in [Environmental Modeling and Software](https://doi.org/10.1016/j.envsoft.2020.104664) (doi: https://doi.org/10.1016/j.envsoft.2020.104664).
+
+
+

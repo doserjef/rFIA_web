@@ -26,7 +26,7 @@ ___
 
 ## _**Installation**_
 
-You can install the released version from <a href="https://CRAN.R-project.org" target="_blank">CRAN</a> (COMING SOON!):
+You can install the released version from <a href="https://cran.r-project.org/web/packages/rFIA/index.html" target="_blank">CRAN</a>:
 
 ``` r
 install.packages("rFIA")
@@ -46,17 +46,19 @@ devtools::install_github('hunter-stanke/rFIA')
 |---------------- |----------------------------------------------------------------------|
 |`area`           | Estimate land area in various classes                                |
 |`biomass`        | Estimate volume, biomass, & carbon stocks of standing trees          |
-|`clipFIA`        | Spatial & temporal queries                                           |
-|`diversity`      | Estimate species diversity                                           |
+|`clipFIA`        | Spatial & temporal queries for FIA data                              |
+|`diversity`      | Estimate diversity indices (e.g. species diversity)                  |
 |`dwm`            | Estimate volume, biomass, and carbon stocks of down woody material   |
-|`getFIA`         | Download FIA data, load into R, and optionally save to disk      |
+|`getFIA`         | Download FIA data, load into R, and optionally save to disk          |
 |`growMort`       | Estimate recruitment, mortality, and harvest rates                   |
 |`invasive`       | Estimate areal coverage of invasive species                          |
-|`plotFIA`        | Produce static & animated plots of spatial FIA summaries             |
-|`readFIA`        | Load FIA database into R environment                                 |
+|`plotFIA`        | Produce static & animated plots of FIA summaries                     |
+|`readFIA`        | Load FIA database into R environment from disk                       |
+|`seedling`       | Estimate seedling abundance (TPA)                                    |
 |`standStruct`    | Estimate forest structural stage distributions                       |
 |`tpa`            | Estimate abundance of standing trees (TPA & BAA)                     |
 |`vitalRates`     | Estimate live tree growth rates                                      |
+|`writeFIA`       | Write in-memory FIA Database to disk                                 |
 
 <br>
 
@@ -64,4 +66,5 @@ devtools::install_github('hunter-stanke/rFIA')
 - [Downloading FIA Data] ( {{< ref "/tutorial/downloading.markdown" >}} )
 - [Estimating Forest Attributes] ( {{< ref "/tutorial/basicAnalysis.markdown" >}} )
 - [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.markdown" >}} )
+- [Using alternative estimators] ( {{< ref "/tutorial/ae.markdown" >}} )
 - [Tips for Handling Big Data] ( {{< ref "/tutorial/bigData.markdown" >}} )

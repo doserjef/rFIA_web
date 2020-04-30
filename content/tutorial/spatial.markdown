@@ -49,8 +49,8 @@ plot(bio_pltSF)
 ```
 
 ```
-## Warning: plotting the first 10 out of 11 attributes; use max.plot = 11 to
-## plot all
+## Warning: plotting the first 10 out of 13 attributes; use max.plot = 13 to plot
+## all
 ```
 
 <img src="/tutorial/spatial_files/figure-html/unnamed-chunk-3-1.png" width="672" />

@@ -4,7 +4,7 @@ widget = "hero"  # See https://sourcethemes.com/academic/docs/page-builder/
 headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
 weight = 3  # Order that this section will appear.
-hero_media = "rLogo.png"
+hero_media = "logo.png"
 
 #title = "Unlocking the FIA Database in R"
 
@@ -26,8 +26,8 @@ hero_media = "rLogo.png"
   #gradient_end = "#2b94c3"
   
   # Background image.
-  image = "hja_tower_sunset.jpg"  # Name of image in `static/img/`.
-  image_darken = 0.5 # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
+  image = "idLookout.jpg"  # Name of image in `static/img/`.
+  image_darken = 0.2 # Darken the image? Range 0-1 where 0 is transparent and 1 is opaque.
 
   # Text color (true=light or false=dark).
   text_color_light = true
@@ -42,8 +42,8 @@ hero_media = "rLogo.png"
   icon = "github"
 
 [cta_alt]
-  url = "files/rFIA-manual.pdf"
-  label = "View Documentation"
+  url = "https://github.com/hunter-stanke/rFIA/issues"
+  label = "Report a bug"
   target = "_blank"
   
   
@@ -55,7 +55,7 @@ hero_media = "rLogo.png"
 <a href="https://cran.r-project.org/package=rFIA" style="display:inline-block;">
   <img src="https://www.r-pkg.org/badges/version/rFIA" style="border:0;">
 </a> <a href="https://cran.r-project.org/package=rFIA" style="display:inline-block;">
-  <img src="https://cranlogs.r-pkg.org/badges/grand-total/rFIA" style="border:0;">
+  <img src="https://cranlogs.r-pkg.org/badges/last-month/rFIA" style="border:0;">
 </a> <a href="https://travis-ci.org/hunter-stanke/rFIA" style="display:inline-block;">
   <img src="https://travis-ci.org/hunter-stanke/rFIA.svg?branch=master" style="border:0;">
 </a> <a href="https://www.tidyverse.org/lifecycle/#maturing" style="display:inline-block">
@@ -63,11 +63,10 @@ hero_media = "rLogo.png"
 </a>
 
 </p>
-  
 
 
 
-Install the released version from [CRAN](https://CRAN.R-project.org):
+Install the released version from [CRAN](https://cran.r-project.org/web/packages/rFIA/index.html):
 
 ``` r
 install.packages("rFIA")

@@ -7,11 +7,17 @@
   name = "Install"
   url = "#install"
   weight = 10
-
+  
+  
 [[main]]
   name = "About"
   url = "#about"
   weight = 20
+  
+  [[main]]
+  name = "Cite rFIA"
+  url = "#featured"
+  weight = 21
 
 [[main]]
   name = "Projects"
@@ -28,11 +34,6 @@
   url = "courses/"
   weight = 30
 
-#[[main]]
-#  name = "News & Updates"
-#  url = "#news"
-#  weight = 50
-  
 [[main]]
   name = "Contact"
   url = "#contact"

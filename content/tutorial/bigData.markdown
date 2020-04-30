@@ -8,10 +8,10 @@ draft: false
 menu:
   tutorial:
     parent: Overview
-    weight: 4
+    weight: 5
 
 # Prev/next pager order (if `docs_section_pager` enabled in `params.toml`)
-weight: 4
+weight: 5
 ---
 
 ___

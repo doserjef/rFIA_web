@@ -62,9 +62,6 @@ riKC <- clipFIA(fiaRI, mask = kc, mostRecent = FALSE)
 ## Most recent subset, within Kent County
 riKC <- clipFIA(fiaRI, mask = kc)
 ```
-{{% alert note %}}
-If you plot FIA plot locations following a spatial subset, you will often find that some FIA plots fall outside of the mask boundary. *The FIA plots falling beyond the bounds of your spatial mask are necessary to estimate sampling errors for the region within the mask, and do not affect population total or ratio estimates*.
-{{% /alert %}}
 
 <br>
 
