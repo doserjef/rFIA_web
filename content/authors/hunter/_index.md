@@ -50,7 +50,5 @@ user_groups:
 
 ---
 
-Hunter Stanke is the lead author and maintainer of `rFIA`.
-
-Hunter is a PhD student in the <a href="https://depts.washington.edu/bjhlab/" target="_blank">The Harvey Lab</a> and the <a href="http://www.thebutmanlab.com/" target="_blank">Ecosystem Biogeochemistry Group</a> in School of Environmental and Forest Science at the University of Washington, and current Graduate Research Fellow with the National Science Foundation. His research interests lie at the intersection of disturbance, landscape, and ecosystem ecology. See his personal website <a href="https://hunter-stanke.com" target="_blank">here</a>.
+Hunter Stanke is the lead author and maintainer of `rFIA`. He is a PhD student in the <a href="https://depts.washington.edu/bjhlab/" target="_blank">The Harvey Lab</a> and the <a href="http://www.thebutmanlab.com/" target="_blank">Ecosystem Biogeochemistry Group</a> in School of Environmental and Forest Science at the University of Washington, and current Graduate Research Fellow with the National Science Foundation. His research interests lie at the intersection of disturbance, landscape, and ecosystem ecology. See his personal website <a href="https://hunter-stanke.com" target="_blank">here</a>.
 
