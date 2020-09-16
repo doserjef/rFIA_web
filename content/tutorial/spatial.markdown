@@ -18,7 +18,7 @@ weight: 3
 
 ___
 ## _**Grouping estimates by user-defined areal units**_
-Want to compute estimates within your own area units (spatial polygons)? All `rFIA` estimator functions make this task fast and easy. Simply hand your spatial polygons to the `polys` argument of an estimator function, like `tpa` or `biomass`, and estimates will be grouped within those spatial zones. No need to worry about projections, *`rFIA` functions will reproject FIA data to match that of your input polygon.*
+Want to compute estimates within your own areal units (spatial polygons)? All `rFIA` estimator functions make this task fast and easy. Simply hand your spatial polygons to the `polys` argument of an estimator function, like `tpa` or `biomass`, and estimates will be grouped within those spatial zones. No need to worry about projections, *`rFIA` functions will reproject FIA data to match that of your input polygon.*
 
 ```r
 ## Most recent subset

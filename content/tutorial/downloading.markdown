@@ -38,11 +38,14 @@ You can also download REFERENCE tables listed on the <a href="https://apps.fs.us
 ref <- getFIA(states = 'ref', tables = c('FOREST_TYPE', 'FOREST_TYPE_GROUP'))
 ```
 
+{{% alert note %}}
+If you are downloading a large amount of data (e.g., the entire eastern US), you may not want to load it all into R immediately. In this case, specify `load=FALSE` in the call to `getFIA`. This will ensure all data is download and saved to disk without maxing out your RAM. For more on 'big data' management, check our new [larger than RAM methods] ( {{< ref "/tutorial/bigData.markdown" >}} ).
+{{% /alert %}}
 
 <br>
 
 ## _**Load data into R**_
-If you used `getFIA` to download data, then the database is automatically loaded into your current R session.  If you downloaded data manually from the <a href="https://apps.fs.usda.gov/fia/datamart/CSV/datamart_csv.html" target="_blank">FIA Datamart</a>, simply unzip the object, and save the .csv files in a local directory, and load them into R using `readFIA`: 
+If you used `getFIA` to download data in your current R session, then the database is likely automatically loaded into your current R session (unless `load=FALSE`). Theoretically, we could use `getFIA` to re-download FIA data every time you want to use, but that would be _very_ inefficient. Instead, we recommend you save downloaded FIA data using the `dir` argument in `getFIA` (automatically saves on download) or using `writeFIA` (saves any in-memory `FIA.Database`). Once data are saved on disk, you can quickly re-load them into R using `readFIA`:
 
 
 ```r
@@ -50,19 +53,32 @@ If you used `getFIA` to download data, then the database is automatically loaded
 db <- readFIA('/path/to/your/directory/')
 ```
 
-{{% alert note %}}
-Data previously downloaded with `getFIA` can be reloaded into a new R session with `readFIA`.
-{{% /alert %}}
-
 <br>
 
 ## _**Loading multiple states**_
-Need to load multiple state subsets of FIA data for regional analyses? No problem! Using `getFIA`, specify mutiple state abbreviations in the `states` argument (e.g. `states = c('MI', 'IN', 'WI', 'IL')`). Alternatively, download state subsets manually from the FIA Datamart as .zip files  (*recommended for large subsets*), unzip files into the same local directory, and load using `readFIA`.
+Need to load multiple state subsets of FIA data for regional analyses? No problem! Using `getFIA`, specify mutiple state abbreviations in the `states` argument (e.g. `states = c('MI', 'IN', 'WI', 'IL')`). Alternatively, download individual states seperately and save them to the same directory. When multiple state subsets of data are loaded into R using `getFIA` or `readFIA`, subsets will be merged into a single `FIA.Database` object. This will allow you to use other `rFIA` functions to produce estimates for areas which straddle state boundaries!
 
-When multiple state subsets of data are loaded into R using `getFIA` or `readFIA`, subsets will be merged into a single `FIA.Database` object. This will allow you to use other `rFIA` functions to produce estimates for areas which straddle state boundaries!
+Conveniently, you can selectively read state subsets from a directory containing multiple states worth of data using `readFIA`. For example, lets say we previously used `getFIA` to download FIA data for Washington, Oregon, and Idaho. We saved all this data to same directory, and hence pointing `readFIA` to this directory will automatically load and merge all states. But what if we just want to load the data for Washington? Easy, use the `states` argument in readFIA:
+
+```r
+## Download data for PNW states, but don't load the data yet
+getFIA(states = c('WA', 'OR', 'ID'), 
+       dir = 'path/to/my/directory/',
+       load = FALSE)
+
+## A simple call to readFIA will load and merge all states
+allStates <- readFIA(dir = 'path/to/my/directory/')
+
+## But using the 'states' argument we can select individual states (or groups)
+wa <- readFIA(dir = 'path/to/my/directory/', states = 'WA')
+
+## Read WA and OR, but not ID
+wa_or <- readFIA(dir = 'path/to/my/directory/', states = c('WA', 'OR'))
+```
+
 
 {{% alert note %}}
-Note: given the massive size of the full FIA Database, users are cautioned to only download the subsets containing their region of interest.
+Given the massive size of the full FIA Database (~50 GB), users are cautioned to only download the subsets containing their region of interest.
 {{% /alert %}}
 
 <br>
@@ -86,9 +102,6 @@ db$TREE
 # Plot
 db['PLOT']
 
-# Condition
-db[['COND']]
-
 ## Check spatial coverage of plots held in the database
-plot(db$PLOT$LON, db$PLOT$LAT)
+plotFIA(db)
 ```

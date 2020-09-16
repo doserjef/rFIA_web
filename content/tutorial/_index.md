@@ -46,6 +46,7 @@ devtools::install_github('hunter-stanke/rFIA')
 |---------------- |----------------------------------------------------------------------|
 |`area`           | Estimate land area in various classes                                |
 |`biomass`        | Estimate volume, biomass, & carbon stocks of standing trees          |
+|`carbon`         | Estimate carbon stocks by IPCC forest carbon pools                   |
 |`clipFIA`        | Spatial & temporal queries for FIA data                              |
 |`diversity`      | Estimate diversity indices (e.g. species diversity)                  |
 |`dwm`            | Estimate volume, biomass, and carbon stocks of down woody material   |

@@ -15,7 +15,7 @@ weight: 2
 ---
 ___
 
-Now that you have loaded your FIA data into R, it's time to put it to work. Let's explore the basic functionality of `rFIA` with `tpa`, a function to compute tree abundance estimates (TPA, BAA, & relative abundance (%)) from FIA data, and `fiaRI`, a subset of the FIA Database for Rhode Island including all inventories up to 2017.  
+Now that you have loaded your FIA data into R, it's time to put it to work. Let's explore the basic functionality of `rFIA` with `tpa`, a function to compute tree abundance estimates (TPA, BAA, & relative abundance (%)) from FIA data, and `fiaRI`, a subset of the FIA Database for Rhode Island including all inventories from 2014-2018.  
 
 {{% alert note %}}
 The two example datasets used below are included with `rFIA`. **Copy and paste the code below into R to follow along!**
@@ -39,7 +39,7 @@ data('countiesRI')
 ```
 
 #### Most recent subsets
-To subset only the data needed to produce estimates for the most recent inventory year (2017 in our case), users can simply pass thier `FIA.Database` object to `clipFIA`, or more explicitly specify `mostRecent = TRUE` in the call:
+To subset only the data needed to produce estimates for the most recent inventory year (2017 in our case), users can simply pass their `FIA.Database` object to `clipFIA`, or more explicitly specify `mostRecent = TRUE` in the call:
 
 ```r
 ## Most Recent Subset (2017)
@@ -65,7 +65,7 @@ riKC <- clipFIA(fiaRI, mask = kc)
 
 <br>
 
-## _**Basic estimates**_
+## _**Basic population estimates**_
 To produce tree abundance estimates and associated sampling errors for the state of Rhode Island, simply hand your `FIA.Database` object to the `db` argument of `tpa()`:
 
 ```r
@@ -79,6 +79,7 @@ tpaRI <- tpa(fiaRI)
 If you would like to return estimates of population totals (e.g., total trees) along with ratio estimates (e.g., mean trees/acre), specify `totals = TRUE` in the call to `tpa`. If you do not want to estimate sampling errors, specify `SE = FALSE` (often much faster).
 {{% /alert %}}
 
+## _**Basic plot-level estimates**_
 To return the same estimates at the plot level (e.g., mean TPA & BAA for each plot), specify `byPlot = TRUE`. For subplot or tree-level estimates, specify `byPlot = TRUE` and `grpBy = SUBP` or `grpBy = TREE`, respectively:
 
 ```r
@@ -135,14 +136,14 @@ tpaRI_ftspc <- tpa(riMR, grpBy = c(FORTYPCD, SITECLCD))
 ```
 
 {{% alert note %}}
-Variable names passed to `grpBy` should NOT be quoted. Multiple grouping variables should be combined with c(), and grouping will occur heirarchically. For example, to produce seperate estimates for each ownership group within ecoregion subsections, specify c(ECOSUBCD, OWNGRPCD).
+Variable names passed to `grpBy` should NOT be quoted. Multiple grouping variables should be combined with c(), and grouping will occur hierarchically. For example, to produce separate estimates for each ownership group within ecoregion subsections, specify c(ECOSUBCD, OWNGRPCD).
 {{% /alert %}}
 
 
 <br>
 
 ## _**Unique areas or trees of interest**_
-Do you want estimates for a specific type of tree (eg. greater than 12-inches DBH and in a canopy dominant or subdominant position) in specific area (eg. growing on mesic sites)? Each of these specifications are described in the FIA Database, and all `rFIA` estimator functions can leverage these data to easily implement complex queries!
+Do you want estimates for a specific type of tree (e.g., greater than 12-inches DBH and in a canopy dominant or subdominant position) in specific area (e.g., growing on mesic sites)? Each of these specifications are described in the FIA Database, and all `rFIA` estimator functions can leverage these data to easily implement complex queries!
 
 For a conditions related to trees of interest (e.g., diameter, height, crown class, etc.) pass a logical statement to `treeDomain`. For conditions related to area(e.g., ecoregions, counties, forest types, etc.), pass a logical statement to `areaDomain`. *These statements should NOT be quoted.*
 
@@ -204,15 +205,72 @@ You can specify `n.max` to any grouped call to `plotFIA` to only display the top
 <br>
 
 
+## _**Variance vs Sampling Error**_
+FIA's flagship online estimation tools, <a href="https://apps.fs.usda.gov/Evalidator/evalidator.jsp" target="_blank">EVALIDator</a>, reports estimates of uncertainty as "% sampling error" (SE). While the definition is a bit elusive, this measure is simply the % coefficient of variation, or the sample standard deviation divided by the sample mean multiplied by 100. FIA opts to report SE as opposed to sample variance because SE provides an easy, "standardized" way to compare uncertainty across estimates with very different absolute values (i.e., how large is the "spread" relative to the mean?). However, SE has its downsides. First, confidence intervals cannot be derived directly from SE. Second, the "standardized" nature of the SE breaks down as the mean approaches zero (SE approaches infinity in this case), making it particularly uninformative for change estimates that tend near zero. 
+
+In `rFIA` we allow users to return estimates of uncertainty in terms of SE *or* sample variance using the `variance` argument (where `variance=TRUE` returns sample variance and sample size). Along with sample size, sample variance can be used to produce proper confidence intervals about a mean: 
+
+```r
+## TPA with % sampling error (SE)
+tpaSE <- tpa(riMR, variance = FALSE)
+tpaSE
+```
+
+```
+## # A tibble: 1 x 11
+##    YEAR   TPA   BAA TPA_PERC BAA_PERC TPA_SE BAA_SE TPA_PERC_SE BAA_PERC_SE
+##   <int> <dbl> <dbl>    <dbl>    <dbl>  <dbl>  <dbl>       <dbl>       <dbl>
+## 1  2018  427.  122.     93.2     93.7   6.63   3.06        7.62        4.48
+## # ... with 2 more variables: nPlots_TREE <dbl>, nPlots_AREA <dbl>
+```
+
+```r
+## TPA with % sampling error (SE)
+tpaVAR <- tpa(riMR, variance = TRUE)
+tpaVAR
+```
+
+```
+## # A tibble: 1 x 12
+##    YEAR   TPA   BAA TPA_PERC BAA_PERC TPA_VAR BAA_VAR TPA_PERC_VAR BAA_PERC_VAR
+##   <int> <dbl> <dbl>    <dbl>    <dbl>   <dbl>   <dbl>        <dbl>        <dbl>
+## 1  2018  427.  122.     93.2     93.7    801.    13.9         50.4         17.6
+## # ... with 3 more variables: nPlots_TREE <dbl>, nPlots_AREA <dbl>, N <int>
+```
+
+```r
+## Estimate 95% confidence interval around 2018 TPA
+halfInt <- qt(0.975, tpaVAR$N - 1) * (sqrt(tpaVAR$TPA_VAR) / sqrt(tpaVAR$N))
+
+## Lower
+tpaVAR$TPA - halfInt
+```
+
+```
+## [1] 422.9944
+```
+
+```r
+## Upper
+tpaVAR$TPA + halfInt
+```
+
+```
+## [1] 430.4295
+```
+
+
+<br>
 
 ## _**Other rFIA functions**_
-Fortunately, all of the `rFIA` estimator functions are structured in the same way. Therefore you can use essentially the same argument calls we've used with `tpa` above, to produce estimates of other types of forest attributes! 
+Fortunately, all of the `rFIA` estimator functions are structured in the same way as `tpa`. Therefore you can use essentially the same argument calls we've used above to produce estimates of other types of forest attributes! 
 
 In the table below we list the availability of the argument calls we have explored in the examples above for all `rFIA` estimator functions. In some cases, like that of `dwm` (estimates of down woody material volume, biomass & carbon) it does not make sense to include arguments like `treeDomain` or `bySpecies`, and hence these arguments are unavailable.
 
 |`rFIA` Function | bySpecies | bySizeClass| treeDomain  | areaDomain | tidy |
 |--------------- |---------- |------------ |----------- |----------- |----- |
 |`biomass`       |     +     |      +      |      +     |     +      |   -  |
+|`carbon`        |     -     |      -      |      +     |     +      |   -  |
 |`diversity`     |     -     |      +      |      +     |     +      |   -  |
 |`dwm`           |     -     |      -      |      -     |     +      |   +  |
 |`growMort`      |     +     |      +      |      +     |     +      |   -  |
