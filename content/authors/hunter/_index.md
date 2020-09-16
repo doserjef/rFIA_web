@@ -24,7 +24,7 @@ interests:
 
 name: Hunter Stanke
 organizations:
-- name: Michigan State Univeristy
+- name: Univeristy of Washington
   url: ""
 role: Graduate Student
 social:

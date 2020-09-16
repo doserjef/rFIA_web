@@ -50,6 +50,10 @@ hero_media = "logo.png"
 # Note. An optional note to show underneath the links.
 
 +++
+# _**Unlocking the FIA Database in R**_
+
+<p style="margin-bottom:1cm;"> </p>
+
 
 <p float="center">
 <a href="https://cran.r-project.org/package=rFIA" style="display:inline-block;">
