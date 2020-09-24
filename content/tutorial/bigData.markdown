@@ -76,7 +76,7 @@ modTables <- readFIA(dir = 'path/to/save/', tables = 'COND', inMemory = TRUE)
 modTables$COND$standAge <- makeClasses(modTables$COND$STDAGE, interval = 50)
 
 ## Now we can save our changes to the modified tables on disk with writeFIA
-## This will overwrite the COND tables previosly stored in our target directory
+## This will overwrite the COND tables previously stored in our target directory
 ## And allow us to use our new variables in a subsequent 'Remote.FIA.Database'
 writeFIA(modTables, dir = 'path/to/save/', byState = TRUE)
 
