@@ -6,7 +6,7 @@
 # I like the highlight colors from default, but the header colors from dark
 color_theme = "default"
 # Enable users to switch between day and night mode?
-day_night = true
+day_night = false
 
 
 
