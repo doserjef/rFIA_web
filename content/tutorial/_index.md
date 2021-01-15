@@ -45,11 +45,13 @@ devtools::install_github('hunter-stanke/rFIA')
 |`rFIA` Function  | Description                                                          |
 |---------------- |----------------------------------------------------------------------|
 |`area`           | Estimate land area in various classes                                |
-|`biomass`        | Estimate volume, biomass, & carbon stocks of standing trees          |
+|`areaChange`     | Estimate annual change in land area in various classes               |
+|`biomass`        | Estimate biomass, & carbon stocks of standing trees          |
 |`carbon`         | Estimate carbon stocks by IPCC forest carbon pools                   |
 |`clipFIA`        | Spatial & temporal queries for FIA data                              |
 |`diversity`      | Estimate diversity indices (e.g. species diversity)                  |
 |`dwm`            | Estimate volume, biomass, and carbon stocks of down woody material   |
+|`fsi`            | Estimate Forest Stability Index for live tree populations            |
 |`getFIA`         | Download FIA data, load into R, and optionally save to disk          |
 |`growMort`       | Estimate recruitment, mortality, and harvest rates                   |
 |`invasive`       | Estimate areal coverage of invasive species                          |
@@ -59,6 +61,7 @@ devtools::install_github('hunter-stanke/rFIA')
 |`standStruct`    | Estimate forest structural stage distributions                       |
 |`tpa`            | Estimate abundance of standing trees (TPA & BAA)                     |
 |`vitalRates`     | Estimate live tree growth rates                                      |
+|`volume`         | Estimate merchantable volume of standing trees                       | 
 |`writeFIA`       | Write in-memory FIA Database to disk                                 |
 
 <br>
