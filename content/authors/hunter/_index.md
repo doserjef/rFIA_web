@@ -44,7 +44,6 @@ social:
   icon_pack: ai
   link: 'files/stanke_CV.pdf'
 superuser: true
-superuser: true
 user_groups:
 - Author
 
