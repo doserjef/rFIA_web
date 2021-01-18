@@ -1,0 +1,80 @@
+---
+title: Separating estimation of tree biomass and merchantable volume
+author: "hunter"
+date: '2021-01-18'
+slug: []
+categories: []
+tags: []
+subtitle: ''
+summary: ''
+authors: [hunter]
+lastmod: '2021-01-18T11:22:05-08:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+rFIA v0.3.1 introduced breaking changes to the `biomass` function. Though we try to avoid breaking changes whenever possible, they are almost certainly for the better. Prior to v0.3.1, `biomass` supported two primary estimation objectives: estimation of (1) tree biomass/carbon and (2) merchantable volume. This combination made sense when we originally wrote `biomass`, but as rFIA matures and our user group grows, it's becoming clear to us that this pairing limits the value and flexibility inherent to FIA data.
+
+As such, we're proud to announce a handful of improvements in tree biomass and merchantable volume estimation in rFIA v0.3.1. Specifically, the `biomass` function has been overhauled to focus solely on estimation of tree biomass and carbon, and offers enhanced flexibility in the estimation of *biomass components* (e.g., bole, limbs, coarse roots, etc.). In addition, v0.3.1 gives rise to the new `volume` function, which supersedes and expands upon the previous merchantable volume estimators implemented in `biomass`. Check out the examples below to get started!
+
+<br>
+
+### Estimating tree biomass components
+___
+
+Let's take the updates for a test drive, and show off how the new `biomass` can be used to estimate tree biomass components! As always, you can check out our documentation with `?biomass`:
+
+```{r, echo=TRUE, eval=TRUE, warning=FALSE}
+
+## Load data from the rFIA package
+library(rFIA)
+data(fiaRI)
+
+## Total live tree aboveground biomass, excluding foliage (default)
+biomass(fiaRI)
+```
+
+By default, `biomass` estimates total aboveground live tree biomass for all reporting years available in the `FIA.Database` (`treeType = "live"`, `component = "AG"`). Here aboveground tree biomass is a simple summation of biomass in the bole (including bark), tops and limbs, and the stumps of individual trees, and carbon is always assumed to comprise 50% of biomass.
+
+But what if we're interested in estimating biomass within each of these components separately, e.g., we want an individual estimate for bole, tops and limbs, and others? Simply set the new `byComponent` argument to `TRUE`:
+``` {r, echo=TRUE, eval=TRUE, warning=FALSE}
+biomass(db = clipFIA(fiaRI), 
+        byComponent = TRUE)
+```
+
+Awesome, but what if we want to estimate biomass for some combination of these components, e.g., bole plus stump? The new `component` argument has our backs. Users can specify any combination components seen in the output above. For example, say we want to estimate abovegound biomass (`"AG"`) plus foliage (`"FOLIAGE"`):
+``` {r, echo=TRUE, eval=TRUE, warning=FALSE}
+biomass(db = clipFIA(fiaRI), 
+        component = c("AG", "FOLIAGE"))
+## Equivelantly, break out the components of "AG"
+biomass(db = clipFIA(fiaRI), 
+        component = c("BOLE", "STUMP", "TOP", "SAPLING", "FOLIAGE"))
+```
+
+
+
+<br>
+
+### Estimating merchantable tree volume
+___
+
+Previously, `biomass` included support for estimation of net merchantable volume and net sawlog volume in units of cubic feet. The new volume function expands on this previous capacity in two key ways: (1) allowing use of alternative volume definitions used by the FIA program (i.e., net, sound, and gross volume), and (2) offering estimates of sawlog volume in units of cubic feet (CF) and thousand board feet (MBF; International 1/4 inch rule). 
+
+By default, `volume` will estimate net volume of live trees (`volType = "NET"` and `treeType = "live"`):
+``` {r echo=TRUE, eval=TRUE, warning=FALSE}
+volume(db = fiaRI)
+```
+
+Here, `BOLE_CF_ACRE` gives us merchantable bole volume per acre, `SAW_CF_ACRE` gives us sawlog volume in cubic feet per acre, and `SAW_MBF_ACRE` gives us sawlog volume in thousand board feet per acre. 
+
+We can change our volume definition using the `volType` argument. Let's try gross volume instead:
+``` {r echo=TRUE, eval=TRUE, warning=FALSE}
+volume(db = fiaRI,
+       volType = 'gross')
+```
+
+So what do these different definitions mean? FIA defines net volume (`volType="NET"`) as: "net volume of wood in the central stem of a sample tree 5.0 inches d.b.h., from a 1-foot stump to a minimum 4-inch top diameter, or to where the central stem breaks into limbs all of which are <4.0 inches in diameter... Does not include rotten, missing, and form cull (volume loss due to rotten, missing, and form cull defect has been deducted)". In `volume`, we could also choose from two alternative definitions: sound volume (`volType = "SOUND"`) or gross volume (`volType = "GROSS"`). Sound volume is identical to net volume except that sound includes volume from portions of the stem that are be considered "form cull" under the net volume definition (e.g., sweep). In contrast, gross volume is identical to the net volume definition except that gross includes volume from portions of the stem that are rotten, missing, and considered form cull.

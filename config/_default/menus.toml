@@ -9,15 +9,20 @@
   weight = 10
   
   
-[[main]]
-  name = "About"
-  url = "#about"
-  weight = 20
+#[[main]]
+#  name = "About"
+#  url = "#about"
+#  weight = 20
   
   [[main]]
   name = "Cite rFIA"
   url = "#featured"
   weight = 21
+
+[[main]]
+  name = "Recent Posts"
+  url = "#post"
+  weight = 30
 
 [[main]]
   name = "Projects"
