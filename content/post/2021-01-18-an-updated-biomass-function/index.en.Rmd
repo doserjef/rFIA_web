@@ -38,7 +38,7 @@ data(fiaRI)
 biomass(fiaRI)
 ```
 
-By default, `biomass` estimates total aboveground live tree biomass for all reporting years available in the `FIA.Database` (`treeType = "live"`, `component = "AG"`). Here aboveground tree biomass is a simple summation of biomass in the bole (including bark), tops and limbs, and the stumps of individual trees, and carbon is always assumed to comprise 50% of biomass.
+By default, `biomass` estimates total aboveground live tree biomass for all reporting years available in the `FIA.Database` (`treeType = "live"`, `component = "AG"`). Here aboveground tree biomass is a simple summation of biomass in the bole (including bark), tops and limbs, and the stumps of individual trees, and carbon is always assumed to comprise half of biomass.
 
 But what if we're interested in estimating biomass within each of these components separately, e.g., we want an individual estimate for bole, tops and limbs, and others? Simply set the new `byComponent` argument to `TRUE`:
 ``` {r, echo=TRUE, eval=TRUE, warning=FALSE}

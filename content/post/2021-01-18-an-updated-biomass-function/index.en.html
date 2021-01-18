@@ -41,7 +41,7 @@ biomass(fiaRI)</code></pre>
 ## 3  2016     70.6      35.3        3.50         3.50         124         125
 ## 4  2017     70.8      35.4        3.57         3.57         124         125
 ## 5  2018     70.4      35.2        3.57         3.57         126         127</code></pre>
-<p>By default, <code>biomass</code> estimates total aboveground live tree biomass for all reporting years available in the <code>FIA.Database</code> (<code>treeType = "live"</code>, <code>component = "AG"</code>). Here aboveground tree biomass is a simple summation of biomass in the bole (including bark), tops and limbs, and the stumps of individual trees, and carbon is always assumed to comprise 50% of biomass.</p>
+<p>By default, <code>biomass</code> estimates total aboveground live tree biomass for all reporting years available in the <code>FIA.Database</code> (<code>treeType = "live"</code>, <code>component = "AG"</code>). Here aboveground tree biomass is a simple summation of biomass in the bole (including bark), tops and limbs, and the stumps of individual trees, and carbon is always assumed to comprise half of biomass.</p>
 <p>But what if we’re interested in estimating biomass within each of these components separately, e.g., we want an individual estimate for bole, tops and limbs, and others? Simply set the new <code>byComponent</code> argument to <code>TRUE</code>:</p>
 <pre class="r"><code>biomass(db = clipFIA(fiaRI), 
         byComponent = TRUE)</code></pre>
