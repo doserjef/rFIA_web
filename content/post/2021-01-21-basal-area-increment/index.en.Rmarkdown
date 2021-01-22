@@ -145,10 +145,6 @@ live <- live %>%
 
 Now let's take a look at what we've got!
 
-```{css, echo=FALSE}
-pre, code {white-space:pre !important; overflow-x:scroll !important}
-```
-
 
 ```{r eval=TRUE, echo=FALSE}
 suppressPackageStartupMessages({

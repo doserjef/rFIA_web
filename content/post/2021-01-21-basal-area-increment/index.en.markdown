@@ -155,10 +155,6 @@ live <- live %>%
 
 Now let's take a look at what we've got!
 
-<style type="text/css">
-pre, code {white-space:pre !important; overflow-x:scroll !important}
-</style>
-
 
 
 
