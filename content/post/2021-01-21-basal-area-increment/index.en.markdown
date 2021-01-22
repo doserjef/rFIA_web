@@ -1,6 +1,6 @@
 ---
 title: Estimating individual-tree and population growth rates
-author: 'hunter'
+author: hunter
 date: '2021-01-21'
 slug: []
 categories: []
