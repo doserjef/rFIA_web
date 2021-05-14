@@ -208,7 +208,7 @@ You can specify `n.max` to any grouped call to `plotFIA` to only display the top
 ## _**Variance vs Sampling Error**_
 FIA's flagship online estimation tools, <a href="https://apps.fs.usda.gov/Evalidator/evalidator.jsp" target="_blank">EVALIDator</a>, reports estimates of uncertainty as "% sampling error" (SE). While the definition is a bit elusive, this measure is simply the % coefficient of variation, or the sample standard deviation divided by the sample mean multiplied by 100. FIA opts to report SE as opposed to sample variance because SE provides an easy, "standardized" way to compare uncertainty across estimates with very different absolute values (i.e., how large is the "spread" relative to the mean?). However, SE has its downsides. First, confidence intervals cannot be derived directly from SE. Second, the "standardized" nature of the SE breaks down as the mean approaches zero (SE approaches infinity in this case), making it particularly uninformative for change estimates that tend near zero. 
 
-In `rFIA` we allow users to return estimates of uncertainty in terms of SE *or* sample variance using the `variance` argument (where `variance=TRUE` returns sample variance and sample size). Along with sample size, sample variance can be used to produce proper confidence intervals about a mean: 
+In `rFIA` we allow users to return estimates of uncertainty in terms of SE *or* sample variance using the `variance` argument (where `variance=TRUE` returns sample variance and sample size). Along with sample size, sample variance can be used to produce proper confidence intervals for totals and ratios: 
 
 ```r
 ## TPA with % sampling error (SE)
@@ -221,7 +221,7 @@ tpaSE
 ##    YEAR   TPA   BAA TPA_PERC BAA_PERC TPA_SE BAA_SE TPA_PERC_SE BAA_PERC_SE
 ##   <int> <dbl> <dbl>    <dbl>    <dbl>  <dbl>  <dbl>       <dbl>       <dbl>
 ## 1  2018  427.  122.     93.2     93.7   6.63   3.06        7.62        4.48
-## # ... with 2 more variables: nPlots_TREE <dbl>, nPlots_AREA <dbl>
+## # … with 2 more variables: nPlots_TREE <dbl>, nPlots_AREA <dbl>
 ```
 
 ```r
@@ -235,19 +235,19 @@ tpaVAR
 ##    YEAR   TPA   BAA TPA_PERC BAA_PERC TPA_VAR BAA_VAR TPA_PERC_VAR BAA_PERC_VAR
 ##   <int> <dbl> <dbl>    <dbl>    <dbl>   <dbl>   <dbl>        <dbl>        <dbl>
 ## 1  2018  427.  122.     93.2     93.7    801.    13.9         50.4         17.6
-## # ... with 3 more variables: nPlots_TREE <dbl>, nPlots_AREA <dbl>, N <int>
+## # … with 3 more variables: nPlots_TREE <dbl>, nPlots_AREA <dbl>, N <int>
 ```
 
 ```r
 ## Estimate 95% confidence interval around 2018 TPA
-halfInt <- qt(0.975, tpaVAR$N - 1) * (sqrt(tpaVAR$TPA_VAR) / sqrt(tpaVAR$N))
+halfInt <- qt(0.975, tpaVAR$N - 1) * sqrt(tpaVAR$TPA_VAR)
 
 ## Lower
 tpaVAR$TPA - halfInt
 ```
 
 ```
-## [1] 422.9944
+## [1] 370.9086
 ```
 
 ```r
@@ -256,9 +256,12 @@ tpaVAR$TPA + halfInt
 ```
 
 ```
-## [1] 430.4295
+## [1] 482.5153
 ```
 
+{{% alert note %}}
+Importantly, the above example previously showed the formula used to compute confidence intervals for *sample means* (i.e., `\(t_{n-1} \frac{\sigma}{\sqrt{N}}\)`), as opposed to *sample totals and ratios* (i.e., `\(t_{n-1} \sigma\)`). This was incorrect for the above application, and for nearly all applications of FIA's design-based estimators. The above example exhibits the correct CI formula for most applications involving FIA (i.e., involving design-based estimators of totals and/or ratios). 
+{{% /alert %}}
 
 <br>
 
