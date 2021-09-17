@@ -11,7 +11,7 @@ tags:
 #- Deep Learning
 title: 2020 Forest Health Monitoring National Report
 url_code: "https://github.com/hunter-stanke/2020_FHM_Chapter_code"
-url_pdf: ""
+url_pdf: "https://www.fs.fed.us/foresthealth/publications/FHM_2020_SRS_draft_national_technical_report.pdf"
 url_slides: ""
 url_video: ""
 authors: ["hunter"]
