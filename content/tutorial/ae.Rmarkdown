@@ -16,7 +16,7 @@ weight: 4
 
 ___
 
-## _**Alternative design-based estimators**_
+## **Alternative design-based estimators**
 
 The FIA program conducts annual inventories (panels) within each state. In the eastern US, this is most often a series of 5 annual, spatially unbiased inventories within each sampling cycle. This panel structure allows the FIA program to improve the precision of status and change estimates by leveraging previously collected data within an inventory cycle (e.g., estimate for 2015 may include data from annual inventories conducted from 2010-2015). There are many methods available for combining annual panels using alternative weighting schemes, and we have implemented a few in our recent updates to `rFIA`. Implementing these alternative design-based estimators is easy! Simply modify the `method` argument in any estimator function (e.g., `tpa`, `biomass`).
 
@@ -48,7 +48,7 @@ For a visual example of the estimators described above, check out the following 
 
 <br>
 
-## _**Model-based & model-assisted estimators**_
+## **Model-based & model-assisted estimators**
 More coming soon! 
 
 

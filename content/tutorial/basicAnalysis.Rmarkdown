@@ -23,7 +23,7 @@ The two example datasets used below are included with `rFIA`. **Copy and paste t
 
 <br>
 
-## _**Spatial and temporal queries**_
+## **Spatial and temporal queries**
 Are you only interested in producing estimates for a specific inventory year or within a portion of your state? `clipFIA` allows you to easily query (subset) your `FIA.Database` object so you only use the data you need. This will conserve RAM on your machine and speed processing time. 
 
 #### Load some data
@@ -62,7 +62,7 @@ riKC <- clipFIA(fiaRI, mask = kc)
 
 <br>
 
-## _**Basic population estimates**_
+## **Basic population estimates**
 To produce tree abundance estimates and associated sampling errors for the state of Rhode Island, simply hand your `FIA.Database` object to the `db` argument of `tpa()`:
 ```{r}
 ## TPA & BAA for the most recent inventory year
@@ -75,7 +75,7 @@ tpaRI <- tpa(fiaRI)
 If you would like to return estimates of population totals (e.g., total trees) along with ratio estimates (e.g., mean trees/acre), specify `totals = TRUE` in the call to `tpa`. If you do not want to estimate sampling errors, specify `SE = FALSE` (often much faster).
 {{% /alert %}}
 
-## _**Basic plot-level estimates**_
+## **Basic plot-level estimates**
 To return the same estimates at the plot level (e.g., mean TPA & BAA for each plot), specify `byPlot = TRUE`. For subplot or tree-level estimates, specify `byPlot = TRUE` and `grpBy = SUBP` or `grpBy = TREE`, respectively:
 ```{r}
 ## Plot-level
@@ -90,7 +90,7 @@ tpaRI_tree <- tpa(riMR, byPlot = TRUE, grpBy = TREE)
 
 <br>
 
-## _**Grouping by species and size class**_
+## **Grouping by species and size class**
 What if I want to group estimates by species? How about by size class? Easy! Just specify `bySpecies` and/ or `bySizeClass` as `TRUE` in the call to `tpa`. By default, estimates are returned within 2 inch size classes, but you can make your own size classes using `makeClasses`!
 ```{r}
 ## Group estimates by species
@@ -105,7 +105,7 @@ tpaRI_spsc <- tpa(riMR, bySpecies = TRUE, bySizeClass = TRUE)
 
 <br>
 
-## _**Grouping by other variables**_
+## **Grouping by other variables**
 To group estimates by a variable defined the FIA Database (other than species or size class), pass the variable name to the `grpBy` argument of `tpa`. You can find definitions of all variables in the FIA Database in the the <a href="https://www.fia.fs.fed.us/library/database-documentation/current/ver80/FIADB%20User%20Guide%20P2_8-0.pdf" target="_blank">FIA User Guide</a>. Variables of interest will most likely be contained in the condition (COND), plot (PLOT), or tree (TREE) tables.
 
 ``` {r}
@@ -135,7 +135,7 @@ Variable names passed to `grpBy` should NOT be quoted. Multiple grouping variabl
 
 <br>
 
-## _**Unique areas or trees of interest**_
+## **Unique areas or trees of interest**
 Do you want estimates for a specific type of tree (e.g., greater than 12-inches DBH and in a canopy dominant or subdominant position) in specific area (e.g., growing on mesic sites)? Each of these specifications are described in the FIA Database, and all `rFIA` estimator functions can leverage these data to easily implement complex queries!
 
 For a conditions related to trees of interest (e.g., diameter, height, crown class, etc.) pass a logical statement to `treeDomain`. For conditions related to area(e.g., ecoregions, counties, forest types, etc.), pass a logical statement to `areaDomain`. *These statements should NOT be quoted.*
@@ -160,7 +160,7 @@ You can find definitions of all variables in the FIA Database in the the <a href
 
 
 
-## _**Visualization**_
+## **Visualization**
 Now that we have produced some estimates, we should translate them into plots so we can easily see the status and trends in our selected forest attributes. Using `plotFIA`, we can easily produce (1) simple or grouped time series plots, (2) simple or grouped plots with a user defined x-axis (e.g., size class), and (3) spatial choropleth maps (see [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.markdown" >}} )).
 
 #### Time Series Plots
@@ -195,7 +195,7 @@ You can specify `n.max` to any grouped call to `plotFIA` to only display the top
 <br>
 
 
-## _**Variance vs Sampling Error**_
+## **Variance vs Sampling Error**
 FIA's flagship online estimation tools, <a href="https://apps.fs.usda.gov/Evalidator/evalidator.jsp" target="_blank">EVALIDator</a>, reports estimates of uncertainty as "% sampling error" (SE). While the definition is a bit elusive, this measure is simply the % coefficient of variation, or the sample standard deviation divided by the sample mean multiplied by 100. FIA opts to report SE as opposed to sample variance because SE provides an easy, "standardized" way to compare uncertainty across estimates with very different absolute values (i.e., how large is the "spread" relative to the mean?). However, SE has its downsides. First, confidence intervals cannot be derived directly from SE. Second, the "standardized" nature of the SE breaks down as the mean approaches zero (SE approaches infinity in this case), making it particularly uninformative for change estimates that tend near zero. 
 
 In `rFIA` we allow users to return estimates of uncertainty in terms of SE *or* sample variance using the `variance` argument (where `variance=TRUE` returns sample variance and sample size). Along with sample size, sample variance can be used to produce proper confidence intervals for totals and ratios: 
@@ -225,7 +225,7 @@ Importantly, the above example previously showed the formula used to compute con
 
 <br>
 
-## _**Other rFIA functions**_
+## **Other rFIA functions**
 Fortunately, all of the `rFIA` estimator functions are structured in the same way as `tpa`. Therefore you can use essentially the same argument calls we've used above to produce estimates of other types of forest attributes! 
 
 In the table below we list the availability of the argument calls we have explored in the examples above for all `rFIA` estimator functions. In some cases, like that of `dwm` (estimates of down woody material volume, biomass & carbon) it does not make sense to include arguments like `treeDomain` or `bySpecies`, and hence these arguments are unavailable.

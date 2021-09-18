@@ -1,5 +1,5 @@
 ---
-title: Getting Started
+#title: Getting Started
 layout: docs  # Do not modify.
 
   
@@ -24,7 +24,7 @@ menu:
 
 ___
 
-## _**Installation**_
+## **Installation**
 
 You can install the released version from <a href="https://cran.r-project.org/web/packages/rFIA/index.html" target="_blank">CRAN</a>:
 
@@ -40,20 +40,23 @@ devtools::install_github('hunter-stanke/rFIA')
 
 <br>
 
-## _**Functionality Overview**_
+## **Functionality Overview**
 
 |`rFIA` Function  | Description                                                          |
 |---------------- |----------------------------------------------------------------------|
 |`area`           | Estimate land area in various classes                                |
 |`areaChange`     | Estimate annual change in land area in various classes               |
-|`biomass`        | Estimate biomass, & carbon stocks of standing trees          |
+|`biomass`        | Estimate biomass & carbon stocks of standing trees                   |
 |`carbon`         | Estimate carbon stocks by IPCC forest carbon pools                   |
+|`customPSE`      | Estimate custom variables                                            |
 |`clipFIA`        | Spatial & temporal queries for FIA data                              |
 |`diversity`      | Estimate diversity indices (e.g. species diversity)                  |
 |`dwm`            | Estimate volume, biomass, and carbon stocks of down woody material   |
 |`fsi`            | Estimate Forest Stability Index for live tree populations            |
+|`getDesignInfo`  | Summarize attributes of FIA's post-stratified inventories            |
 |`getFIA`         | Download FIA data, load into R, and optionally save to disk          |
 |`growMort`       | Estimate recruitment, mortality, and harvest rates                   |
+|`intersectFIA`   | Join attributes of a spatial polygon(s) to FIA's PLOT table          |
 |`invasive`       | Estimate areal coverage of invasive species                          |
 |`plotFIA`        | Produce static & animated plots of FIA summaries                     |
 |`readFIA`        | Load FIA database into R environment from disk                       |
@@ -72,3 +75,4 @@ devtools::install_github('hunter-stanke/rFIA')
 - [Incorporating Spatial Data] ( {{< ref "/tutorial/spatial.markdown" >}} )
 - [Using alternative estimators] ( {{< ref "/tutorial/ae.markdown" >}} )
 - [Tips for Handling Big Data] ( {{< ref "/tutorial/bigData.markdown" >}} )
+- [Handling Custom Variables] ( {{< ref "/tutorial/customVariables.markdown" >}} )
