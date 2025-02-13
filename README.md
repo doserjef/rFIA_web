@@ -1,1 +1,1 @@
-# rFIA_web
+This is the repository for the old `rFIA` website. The new package website is available at [here](https://doserlab.com/files/rFIA/). The development repository for `rFIA` (which contains documents used to create the new website) can be found [here](https://github.com/doserjef/rFIA).  
