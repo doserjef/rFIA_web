@@ -21,7 +21,7 @@
     debug = true
 
 [[redirects]]
-  from = "https://rfia.netlify.app/"
+  from = "https://rfia.netlify.app/*"
   to = "https://doserlab.com/files/rfia/:splat"
   status = 301
   force = true
