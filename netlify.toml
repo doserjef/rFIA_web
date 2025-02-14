@@ -19,3 +19,9 @@
   package = "netlify-plugin-hugo-cache-resources"
   [plugins.inputs]
     debug = true
+
+[[redirects]]
+  from = "https://rfia.netlify.app/"
+  to = "https://doserlab.com/files/rfia/:splat"
+  status = 301
+  force = true
